@@ -45,7 +45,7 @@ package com.clementdauvent.admin.model.vo
 		 * @param	scale:Number		The scale of the image, relative to the "first image". Defaults to 1.
 		 * @param	description:String	The information text for this image.
 		 */
-		public function ImageVO(src:String, origWidth:Number, origHeight:Number, isFirst:Boolean, xOffset:Number= 0 , yOffset:Number = 0, scale:Number = 1, description = "")
+		public function ImageVO(src:String, origWidth:Number, origHeight:Number, isFirst:Boolean, xOffset:Number= 0 , yOffset:Number = 0, scale:Number = 1, description:String = "")
 		{
 			_src = src;
 			_originalWidth = origWidth;

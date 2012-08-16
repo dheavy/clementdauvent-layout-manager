@@ -27,3 +27,5 @@ local.properties
 
 #Logs
 logs/
+
+.DS_Store

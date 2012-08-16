@@ -22,12 +22,12 @@ package com.clementdauvent.admin.model.vo
 		 * @param	title:String		The title of the text content.
 		 * @param	content:String		The actual content of this text section.
 		 * @param	isFirst:Boolean		Whether or not this section displays itself first on the website.
-		 * @param	xOffset:Number		The horizontal offset, in pixels, from the previous element in the list.
-		 * @param	yOffset:Number		The vertical offset, in pixels, from the previous element in the list.
+		 * @param	xOffset:Number		The horizontal offset, in pixels, from the previous element in the list. Defaults to 0.
+		 * @param	yOffset:Number		The vertical offset, in pixels, from the previous element in the list. Defaults to 0.
 		 * 
 		 * Creates a new instance of TextVO, a Value Object holding references to element constitutive of Text sections.
 		 */
-		public function TextVO(title:String, content:String, isFirst:Boolean, xOffset:Number, yOffset:Number)
+		public function TextVO(title:String, content:String, isFirst:Boolean, xOffset:Number = 0, yOffset:Number = 0)
 		{
 			_title = title;
 			_content = content;
