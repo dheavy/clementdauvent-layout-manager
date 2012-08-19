@@ -18,18 +18,40 @@ package com.clementdauvent.admin.view.components
 	
 	public class Image extends Sprite implements IDraggable, IResizable
 	{
+		/* @public	HANDLE_DIMENSIONS:Number	Dimensions for the handle image. */
 		public static const HANDLE_DIMENSIONS	:Number = 70;
-		public static const HANDLE_GFX_SRC		:Number = '';
 		
+		/* @public	HANDLE_GFX_SRC:String	URL of the image resource for the resize handle. */
+		public static const HANDLE_GFX_SRC		:String = 'img/rescale_handle.png';
+		
+		/* @private	_id:uint	The unique ID for this instance. */
 		protected var _id						:uint;
+		
+		/* @private	_src:String	URL for the image resource of this Image instance. */
 		protected var _src						:String;
+		
+		/* @private	_elementWidth:Number	The computed width of this element. To be used instead of width. */
 		protected var _elementWidth				:Number;
+		
+		/* @private	_elementHeight:Number	The computed height of this element. To be used instead of height. */
 		protected var _elementHeight			:Number;
+		
+		/* @private	_referenceDimension:Number	The value used as reference to compute the scaled dimensions of this instance.*/
 		protected var _referenceDimension		:Number;
+		
+		/* @private	_handleLoader:Loader	The Loader instance loading the resource handle image. */
 		protected var _handleLoader				:Loader;
+		
+		/* @private	_handle:Sprite	The resize handle. */
 		protected var _handle					:Sprite;
-		protected var _img						:Bitmap;
+		
+		/* @private	_img:Bitmap	The image container. */
+		protected var _img						:Sprite;
+		
+		/* @private _imgLoader:Loader	The Loader loading the image resource. */
 		protected var _imgLoader				:Loader;
+		
+		/* @private	_progressBar:Shape	The loading bar used to show progress of image loading. */
 		protected var _progressBar				:Shape;
 		
 		/**
@@ -96,7 +118,9 @@ package com.clementdauvent.admin.view.components
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
 			// Creates graphical elements (image and handle containers).
-			_img = new Bitmap(new BitmapData(100, 100));
+			_img = new Sprite();
+			_img.graphics.beginFill(0xDDDDDD);
+			//_img.graphics.drawRect(0, 0, _elementWidth, _elementHeight);
 			addChild(_img);
 			
 			_handle = new Sprite();
@@ -108,7 +132,7 @@ package com.clementdauvent.admin.view.components
 			g.lineTo(half, half);
 			g.lineTo(-half, -half);
 			g.endFill();
-			_handle.visible = false;
+			_handle.visible = true;
 			addChild(_handle);
 			
 			// Position handle to bottom right and register listener for handle drags.
@@ -133,7 +157,7 @@ package com.clementdauvent.admin.view.components
 			// Load cursor image.
 			_handleLoader = new Loader();
 			_handleLoader.contentLoaderInfo.addEventListener(Event.INIT, handleLoader_initHandler);
-			_handleLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IOErrorEvent, handleLoader_ioErrorHandler);
+			_handleLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, handleLoader_ioErrorHandler);
 			_handleLoader.load(new URLRequest(Image.HANDLE_GFX_SRC));
 			
 			// Load Image resource.
@@ -184,10 +208,16 @@ package com.clementdauvent.admin.view.components
 		protected function removeHandleLoaderListeners():void
 		{
 			_handleLoader.contentLoaderInfo.removeEventListener(Event.INIT, handleLoader_initHandler);
-			_handleLoader.contentLoaderInfo.removeEventListener(IOErrorEvent.IOErrorEvent, handleLoader_ioErrorHandler);
+			_handleLoader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, handleLoader_ioErrorHandler);
 			_handleLoader = null;
 		}
 		
+		/**
+		 * @private	removeImgLoaderListeners
+		 * @return	void
+		 * 
+		 * Removes the listeners used by the image loader.
+		 */
 		protected function removeImgLoaderListeners():void
 		{
 			_imgLoader.contentLoaderInfo.removeEventListener(Event.INIT, imgLoader_initHandler);
@@ -233,32 +263,54 @@ package com.clementdauvent.admin.view.components
 			trace("[ERROR] Image " + id + " couldn't load graphic for resize handle: " + e.text); 
 		}
 		
+		/**
+		 * @private imgLoader_initHandler
+		 * @return	void
+		 * 
+		 * Event handler triggered when image has loaded successfully. 
+		 * Adds image to display list.
+		 */
 		protected function imgLoader_initHandler(e:Event):void
 		{
-			TweenMax.to(_img, 0, { autoAlpha: 0 });
+			TweenMax.to(_img, 0, { autoAlpha: 0 });
 			
-			_img = (e.target as LoaderInfo).content as Bitmap;
-			_img.smoothing = true;
+			var bmp:Bitmap = _imgLoader.content as Bitmap;
+			bmp.smoothing = true;
+			_img.addChild(bmp);
 			
-			TweenMax.to(_img, 1, { autoAlpha: 1 });
+			TweenMax.to(_img, .1, { autoAlpha: 1 });
 			TweenMax.to(_progressBar, .5, { autoAlpha: 0, onComplete: 
-				function() {
+				function():void {
 					removeChild(_progressBar);
 					_progressBar = null;
 				}
 			});
 			
 			removeImgLoaderListeners();
+			trace("[INFO] Image " + id + " is ready.");
 		}
 		
+		/**
+		 * @private	imgLoader_progressHandler
+		 * @return	void
+		 * 
+		 * Event handler triggered on load progress. Updates progress bar.
+		 */
 		protected function imgLoader_progressHandler(e:ProgressEvent):void
 		{
-			
+			_progressBar.scaleX = e.bytesLoaded / e.bytesTotal;
 		}
 		
+		/**
+		 * @private	imgLoader_ioErrorHandler
+		 * @return	void
+		 * 
+		 * Event handler triggered when image loading fails. 
+		 */
 		protected function imgLoader_ioErrorHandler(e:IOErrorEvent):void
 		{
-			
+			removeImgLoaderListeners();
+			trace("[ERROR] Image " + id + " couldn't load its photograph: " + e.text);
 		}
 		
 		/**

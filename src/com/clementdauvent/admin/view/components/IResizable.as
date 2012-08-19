@@ -11,6 +11,6 @@ package com.clementdauvent.admin.view.components
 		 * @return 	void
 		 * Rescales element.
 		 */
-		public function rescale():void;
+		function rescale():void;
 	}
 }

@@ -1,6 +1,7 @@
 package com.clementdauvent.admin
 {
 	import com.clementdauvent.admin.context.ApplicationContext;
+	import com.clementdauvent.admin.view.components.Image;
 	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -49,7 +50,9 @@ package com.clementdauvent.admin
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			
-			startApplication();
+			//startApplication();
+			var img:Image = new Image(0, 'http://clementdauvent.com/wp-content/uploads/2011/12/1020621_WEB.jpg', 567, 851);
+			addChild(img);
 		}
 		
 		/**
