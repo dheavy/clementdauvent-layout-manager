@@ -5,8 +5,7 @@ package com.clementdauvent.admin.controller.events
 	import flash.events.Event;
 	
 	/**
-	 * DataFetchEvent
-	 * Event class for managing data fetching mechanism at app startup.
+	 * <p>Event class for managing data fetching mechanism at app startup.</p>
 	 */
 	public class DataFetchEvent extends Event
 	{

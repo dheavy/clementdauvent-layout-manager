@@ -1,7 +1,7 @@
 package com.clementdauvent.admin
 {
 	import com.clementdauvent.admin.context.ApplicationContext;
-	import com.clementdauvent.admin.view.components.Image;
+	import com.clementdauvent.admin.model.MainViewBuilderModel;
 	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -17,7 +17,7 @@ package com.clementdauvent.admin
 	 * @date	2012-08-16
 	 */
 	
-	[SWF(width="800", height="600", backgroundColor="#E8E8E8", frameRate="30")]
+	[SWF(width="1024", height="768", backgroundColor="#E8E8E8", frameRate="30")]
 	
 	public class ClementDauventLayoutManager extends Sprite
 	{
@@ -50,9 +50,7 @@ package com.clementdauvent.admin
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			
-			//startApplication();
-			var img:Image = new Image(0, 'http://clementdauvent.com/wp-content/uploads/2011/12/1020621_WEB.jpg', 567, 851);
-			addChild(img);
+			startApplication();
 		}
 		
 		/**

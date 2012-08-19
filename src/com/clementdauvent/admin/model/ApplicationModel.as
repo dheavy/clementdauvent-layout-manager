@@ -13,8 +13,7 @@ package com.clementdauvent.admin.model
 	import org.robotlegs.mvcs.Actor;
 	
 	/**
-	 * ApplicationModel
-	 * The main model class for the app.
+	 * <p>The main model class for the app.</p>
 	 * 
 	 * @author	Davy Peter Braun
 	 * @date	2012-08-16

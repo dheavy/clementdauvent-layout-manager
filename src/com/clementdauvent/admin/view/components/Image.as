@@ -16,10 +16,13 @@ package com.clementdauvent.admin.view.components
 	import flash.events.ProgressEvent;
 	import flash.net.URLRequest;
 	
+	/**
+	 * <p>The Image view used to represent image content on the Surface</p>
+	 */
 	public class Image extends Sprite implements IDraggable, IResizable
 	{
 		/* @public	HANDLE_DIMENSIONS:Number	Dimensions for the handle image. */
-		public static const HANDLE_DIMENSIONS	:Number = 70;
+		public static const HANDLE_DIMENSIONS	:Number = 150;
 		
 		/* @public	HANDLE_GFX_SRC:String	URL of the image resource for the resize handle. */
 		public static const HANDLE_GFX_SRC		:String = 'img/rescale_handle.png';
@@ -120,25 +123,19 @@ package com.clementdauvent.admin.view.components
 			// Creates graphical elements (image and handle containers).
 			_img = new Sprite();
 			_img.graphics.beginFill(0xDDDDDD);
-			//_img.graphics.drawRect(0, 0, _elementWidth, _elementHeight);
+			_img.graphics.drawRect(0, 0, elementWidth, elementHeight);
 			addChild(_img);
 			
 			_handle = new Sprite();
 			var g:Graphics = _handle.graphics;
-			var half:Number = Image.HANDLE_DIMENSIONS / 2;
-			g.beginFill(0x0, 0);
-			g.moveTo(-half, -half);
-			g.lineTo(half, half);
-			g.lineTo(half, half);
-			g.lineTo(-half, -half);
+			g.beginFill(0xFF0000, 0);
+			g.drawRect(-Image.HANDLE_DIMENSIONS / 2, - Image.HANDLE_DIMENSIONS / 2, Image.HANDLE_DIMENSIONS, Image.HANDLE_DIMENSIONS);
 			g.endFill();
-			_handle.visible = true;
+			_handle.alpha = 0;
 			addChild(_handle);
 			
-			// Position handle to bottom right and register listener for handle drags.
+			// Register listener for handle drags.
 			_handle.buttonMode = true;
-			_handle.x = _img.width;
-			_handle.y = _img.height;
 			_handle.addEventListener(MouseEvent.MOUSE_DOWN, handle_mouseDownHandler);
 			
 			// Creates progress bar and leave it ready for loading action...
@@ -146,10 +143,7 @@ package com.clementdauvent.admin.view.components
 			g = _progressBar.graphics;
 			g.beginFill(0x999999);
 			g.moveTo(0, 0);
-			g.lineTo(_img.width, 0);
-			g.lineTo(_img.width, _img.height);
-			g.lineTo(0, _img.height);
-			g.lineTo(0, 0);
+			g.drawRect(0, 0, elementWidth, elementHeight);
 			g.endFill();
 			_progressBar.scaleX = 0;
 			addChild(_progressBar);			
@@ -234,9 +228,8 @@ package com.clementdauvent.admin.view.components
 		 */
 		protected function scaleAndPositionHandle():void
 		{
-			_handle.scaleX = _handle.scaleY = scaleCompensation;
-			_handle.x = _img.x + _img.width - _handle.width;
-			_handle.y = _img.y + _img.height - _handle.height;
+			_handle.x = _img.x + _img.width;
+			_handle.y = _img.y + _img.height;
 		}
 		
 		/**
@@ -247,8 +240,12 @@ package com.clementdauvent.admin.view.components
 		 */
 		protected function handleLoader_initHandler(e:Event):void
 		{
-			_handle.addChild(e.target.content as Bitmap);
+			var bmp:Bitmap = e.target.content as Bitmap;
+			bmp.x = -bmp.width;
+			bmp.y = -bmp.height;
+			_handle.addChild(bmp);
 			removeHandleLoaderListeners();
+			scaleAndPositionHandle();
 		}
 		
 		/**
@@ -326,7 +323,7 @@ package com.clementdauvent.admin.view.components
 			_handle.addEventListener(MouseEvent.MOUSE_OUT, handle_mouseUpHandler);
 			_handle.addEventListener(Event.ENTER_FRAME, handle_enterFrameHandler);
 			
-			_handle.visible = true;
+			_handle.alpha = 1;
 			_handle.startDrag();
 		}
 		
@@ -343,9 +340,8 @@ package com.clementdauvent.admin.view.components
 			_handle.removeEventListener(MouseEvent.MOUSE_OUT, handle_mouseUpHandler);
 			
 			_handle.stopDrag();
-			_handle.x = _img.width;
-			_handle.y = _img.height;
-			_handle.visible = false;
+			_handle.alpha = 0;
+			scaleAndPositionHandle();
 		}
 		
 		/**

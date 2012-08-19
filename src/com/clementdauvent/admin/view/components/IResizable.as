@@ -1,8 +1,7 @@
 package com.clementdauvent.admin.view.components
 {
 	/**
-	 * IResizable
-	 * Interface for resizable elements.
+	 * <p>Interface for resizable elements.</p>
 	 */
 	public interface IResizable
 	{

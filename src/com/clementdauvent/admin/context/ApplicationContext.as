@@ -1,16 +1,17 @@
 package com.clementdauvent.admin.context
 {
-	import com.clementdauvent.admin.model.ApplicationModel;
+	import com.clementdauvent.admin.controller.commands.MainViewBuildCommand;
 	import com.clementdauvent.admin.controller.commands.StartupCommand;
 	import com.clementdauvent.admin.controller.events.DataFetchEvent;
+	import com.clementdauvent.admin.model.ApplicationModel;
+	import com.clementdauvent.admin.model.MainViewBuilderModel;
 	
 	import flash.display.DisplayObjectContainer;
 	
 	import org.robotlegs.mvcs.Context;
 	
 	/**
-	 * ApplicationContext
-	 * The application context based on requirements from the RobotLegs apparatus.
+	 * <p>The application context based on requirements from the RobotLegs apparatus.</p>
 	 * 
 	 * @author	Davy Peter Braun
 	 * @date	2012-08-16
@@ -40,9 +41,11 @@ package com.clementdauvent.admin.context
 		{
 			// Defines Controller tier.
 			commandMap.mapEvent(DataFetchEvent.BEGIN, StartupCommand);
+			commandMap.mapEvent(DataFetchEvent.COMPLETE, MainViewBuildCommand);
 			
 			// Defines Model tier.
 			injector.mapSingleton(ApplicationModel);
+			injector.mapSingleton(MainViewBuilderModel);
 			
 			// Defines View tier.
 			

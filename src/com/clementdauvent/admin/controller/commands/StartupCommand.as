@@ -5,8 +5,7 @@ package com.clementdauvent.admin.controller.commands
 	import com.clementdauvent.admin.model.ApplicationModel;
 	
 	/**
-	 * StartupCommand
-	 * Command invoked on startup, invoking the beginning of the fetching/populating of data in the model.
+	 * <p>Command invoked on startup, invoking the beginning of the fetching/populating of data in the model.</p>
 	 */
 	public class StartupCommand extends Command
 	{

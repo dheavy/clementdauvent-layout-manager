@@ -1,8 +1,7 @@
 package com.clementdauvent.admin.view.components
 {
 	/**
-	 * IDraggable
-	 * Interface for draggable elements.
+	 * <p>Interface for draggable elements.</p>
 	 */
 	public interface IDraggable
 	{
