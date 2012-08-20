@@ -1,4 +1,3 @@
-// TODO: Finish commenting. Implement imgLoader handlers.
 package com.clementdauvent.admin.view.components
 {
 	import com.greensock.TweenMax;

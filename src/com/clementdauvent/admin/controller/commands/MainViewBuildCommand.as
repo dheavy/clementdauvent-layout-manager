@@ -1,6 +1,7 @@
 package com.clementdauvent.admin.controller.commands
 {
 	import com.clementdauvent.admin.model.MainViewBuilderModel;
+	import com.clementdauvent.admin.view.components.MainView;
 	
 	import flash.events.Event;
 	
@@ -37,6 +38,22 @@ package com.clementdauvent.admin.controller.commands
 		protected function readyHandler(e:Event):void
 		{
 			eventDispatcher.removeEventListener(MainViewBuilderModel.READY, readyHandler);
+			createMainView();
+		}
+		
+		/**
+		 * @private	createMainView
+		 * @return	void
+		 * 
+		 * Creates and adds to the root view class an instance of MainView.
+		 */
+		protected function createMainView():void
+		{
+			var mainView:MainView = new MainView();
+			mainView.create(model.vo.data);
+			contextView.addChild(mainView);
+			
+			trace("[INFO] MainViewBuildCommand has created the MainView instance and added it to the display list");
 		}
 	}
 }

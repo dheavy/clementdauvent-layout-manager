@@ -1,10 +1,14 @@
 package com.clementdauvent.admin.context
 {
+	import com.clementdauvent.admin.ClementDauventLayoutManager;
 	import com.clementdauvent.admin.controller.commands.MainViewBuildCommand;
 	import com.clementdauvent.admin.controller.commands.StartupCommand;
 	import com.clementdauvent.admin.controller.events.DataFetchEvent;
 	import com.clementdauvent.admin.model.ApplicationModel;
 	import com.clementdauvent.admin.model.MainViewBuilderModel;
+	import com.clementdauvent.admin.view.components.MainView;
+	import com.clementdauvent.admin.view.mediators.MainViewMediator;
+	import com.clementdauvent.admin.view.mediators.StageMediator;
 	
 	import flash.display.DisplayObjectContainer;
 	
@@ -48,6 +52,8 @@ package com.clementdauvent.admin.context
 			injector.mapSingleton(MainViewBuilderModel);
 			
 			// Defines View tier.
+			mediatorMap.mapView(ClementDauventLayoutManager, StageMediator);
+			mediatorMap.mapView(MainView, MainViewMediator);
 			
 			// Start app.
 			dispatchEvent(new DataFetchEvent(DataFetchEvent.BEGIN));

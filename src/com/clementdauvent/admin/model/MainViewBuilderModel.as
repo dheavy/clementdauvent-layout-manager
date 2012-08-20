@@ -22,16 +22,16 @@ package com.clementdauvent.admin.model
 	public class MainViewBuilderModel extends Actor
 	{
 		/*	@public	VIEW_BMP_DATA_BUILDER_SRC:String	URL of the image resource used to generate the bitmap data. */
-		public static const VIEW_BMP_DATA_BUILDER_SRC:String = "img/DummyBitmapData.jpg";
+		public static const VIEW_BMP_DATA_BUILDER_SRC	:String = "img/DummyBitmapData.png";
 		
 		/*	@public	READY:String	Event constant used to alert of the availability of the data. */
-		public static const READY:String = "mainViewReady";
+		public static const READY						:String = "mainViewReady";
 		
 		/*	@private	_fileLoader:Loader	The Loader loading the image resource. */
-		protected var _fileLoader:Loader;
+		protected var _fileLoader						:Loader;
 		
 		/*	@private	_vo:BitmapDataVO	The bitmap data container resulting for this manipulation. */
-		protected var _vo:BitmapDataVO;
+		protected var _vo								:BitmapDataVO;
 		
 		/**
 		 * @public	MainViewBuilderModel
