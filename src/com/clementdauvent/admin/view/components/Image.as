@@ -1,7 +1,5 @@
 package com.clementdauvent.admin.view.components
 {
-	import com.greensock.TweenMax;
-	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Graphics;
@@ -15,13 +13,17 @@ package com.clementdauvent.admin.view.components
 	import flash.events.ProgressEvent;
 	import flash.net.URLRequest;
 	
+	import com.clementdauvent.admin.view.components.IResizable;
+	
+	import com.greensock.TweenMax;
+	
 	/**
 	 * <p>The Image view used to represent image content on the Surface</p>
 	 */
-	public class Image extends Sprite implements IDraggable, IResizable
+	public class Image extends Sprite implements IResizable
 	{
 		/* @public	HANDLE_DIMENSIONS:Number	Dimensions for the handle image. */
-		public static const HANDLE_DIMENSIONS	:Number = 150;
+		public static const HANDLE_DIMENSIONS	:Number = 250;
 		
 		/* @public	HANDLE_GFX_SRC:String	URL of the image resource for the resize handle. */
 		public static const HANDLE_GFX_SRC		:String = 'img/rescale_handle.png';
@@ -32,10 +34,10 @@ package com.clementdauvent.admin.view.components
 		/* @private	_src:String	URL for the image resource of this Image instance. */
 		protected var _src						:String;
 		
-		/* @private	_elementWidth:Number	The computed width of this element. To be used instead of width. */
+		/* @private	_elementWidth:Number	Expected width of this element. */
 		protected var _elementWidth				:Number;
 		
-		/* @private	_elementHeight:Number	The computed height of this element. To be used instead of height. */
+		/* @private	_elementHeight:Number	Expected height of this element. */
 		protected var _elementHeight			:Number;
 		
 		/* @private	_referenceDimension:Number	The value used as reference to compute the scaled dimensions of this instance.*/
@@ -78,32 +80,36 @@ package com.clementdauvent.admin.view.components
 		}
 		
 		/**
-		 * @return	id:uint	Unique ID for this instance. 
-		 **/
+		 * @public	id
+		 * @return	The uint unique id of this instance.
+		 */
 		public function get id():uint
 		{
 			return _id;
 		}
 		
 		/**
-		 * @return	elementWidth:Number	Computed width of the element after manipulation. Use instead of width. 
-		 **/
+		 * @public	elementWidth
+		 * @return	The width of the image.
+		 */
 		public function get elementWidth():Number
 		{
-			return _elementWidth;
+			return _img.width;
 		}
 		
 		/**
-		 * @return	elementHeight:Number	Computed height of the element after manipulation. Use instead of height. 
-		 **/
+		 * @public	elementHeight
+		 * @return	The height of the image.
+		 */
 		public function get elementHeight():Number
 		{
-			return _elementHeight;
+			return _img.height;
 		}
 		
 		/**
-		 * @return	scale:Number	Current scale of the element. 
-		 **/
+		 * @public	scale
+		 * @return	The current scale of the image.
+		 */
 		public function get scale():Number
 		{
 			return _img.scaleY;
@@ -122,7 +128,7 @@ package com.clementdauvent.admin.view.components
 			// Creates graphical elements (image and handle containers).
 			_img = new Sprite();
 			_img.graphics.beginFill(0xDDDDDD);
-			_img.graphics.drawRect(0, 0, elementWidth, elementHeight);
+			_img.graphics.drawRect(0, 0, _elementWidth, _elementHeight);
 			addChild(_img);
 			
 			_handle = new Sprite();
@@ -142,7 +148,7 @@ package com.clementdauvent.admin.view.components
 			g = _progressBar.graphics;
 			g.beginFill(0x999999);
 			g.moveTo(0, 0);
-			g.drawRect(0, 0, elementWidth, elementHeight);
+			g.drawRect(0, 0, width, height);
 			g.endFill();
 			_progressBar.scaleX = 0;
 			addChild(_progressBar);			
@@ -317,9 +323,11 @@ package com.clementdauvent.admin.view.components
 		 */
 		protected function handle_mouseDownHandler(e:MouseEvent):void
 		{
+			e.stopImmediatePropagation();
+			
 			_handle.removeEventListener(MouseEvent.MOUSE_DOWN, handle_mouseDownHandler);
 			_handle.addEventListener(MouseEvent.MOUSE_UP, handle_mouseUpHandler);
-			_handle.addEventListener(MouseEvent.MOUSE_OUT, handle_mouseUpHandler);
+			_handle.stage.addEventListener(MouseEvent.MOUSE_UP, handle_mouseUpHandler);
 			_handle.addEventListener(Event.ENTER_FRAME, handle_enterFrameHandler);
 			
 			_handle.alpha = 1;
@@ -336,7 +344,7 @@ package com.clementdauvent.admin.view.components
 		{
 			_handle.addEventListener(MouseEvent.MOUSE_DOWN, handle_mouseDownHandler);
 			_handle.removeEventListener(MouseEvent.MOUSE_UP, handle_mouseUpHandler);
-			_handle.removeEventListener(MouseEvent.MOUSE_OUT, handle_mouseUpHandler);
+			_handle.stage.removeEventListener(MouseEvent.MOUSE_UP, handle_mouseUpHandler);
 			
 			_handle.stopDrag();
 			_handle.alpha = 0;

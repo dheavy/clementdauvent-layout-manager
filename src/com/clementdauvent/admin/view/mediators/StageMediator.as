@@ -3,6 +3,7 @@ package com.clementdauvent.admin.view.mediators
 	import com.clementdauvent.admin.ClementDauventLayoutManager;
 	
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	
 	import org.robotlegs.mvcs.Mediator;
 	
@@ -28,6 +29,8 @@ package com.clementdauvent.admin.view.mediators
 		override public function onRegister():void
 		{
 			application.stage.addEventListener(Event.RESIZE, stage_resizeHandler);	
+			application.stage.addEventListener(MouseEvent.CLICK, stage_clickHandler);
+			application.stage.addEventListener(MouseEvent.MOUSE_WHEEL, stage_mouseWheelHandler);
 		}
 		
 		/**
@@ -41,5 +44,30 @@ package com.clementdauvent.admin.view.mediators
 		{
 			eventDispatcher.dispatchEvent(e);
 		}
+		
+		/**
+		 * @private	stage_clickHandler
+		 * @return	void
+		 * 
+		 * Event handler triggered when stage is clicked.
+		 * Dispatch it throughout the application via EventDispatcher module.
+		 */
+		protected function stage_clickHandler(e:MouseEvent):void
+		{
+			eventDispatcher.dispatchEvent(e); 
+		}
+		
+		/**
+		 * @private	stage_mouseWheelHandler
+		 * @return	void
+		 * 
+		 * Event handler triggered mouse wheel is used.
+		 * Dispatch it throughout the application via EventDispatcher module.
+		 */
+		protected function stage_mouseWheelHandler(e:MouseEvent):void
+		{
+			eventDispatcher.dispatchEvent(e);
+		}
+				
 	}
 }

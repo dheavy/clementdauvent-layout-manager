@@ -55,6 +55,15 @@ package com.clementdauvent.admin.model
 		}
 		
 		/**
+		 * @public	data
+		 * @return	DataVO object holding the application fetched data.
+		 */
+		public function get data():DataVO
+		{
+			return _data;
+		}
+		
+		/**
 		 * @private	removeLoaderListeners
 		 * @return	void
 		 * 

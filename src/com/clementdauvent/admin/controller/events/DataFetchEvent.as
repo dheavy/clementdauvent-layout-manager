@@ -15,6 +15,8 @@ package com.clementdauvent.admin.controller.events
 		/* @public	COMPLETE:String	Event type "setupComplete". */
 		public static const COMPLETE	:String = "setupComplete";
 		
+		public static const REQUIRE_DATA_FOR_IMAGES:String = "requireDataForImages";
+				
 		/* @public vo:DataVO	A DataVO instance that instances of DataFetchEvent may carry around. */
 		public var vo					:DataVO;
 		

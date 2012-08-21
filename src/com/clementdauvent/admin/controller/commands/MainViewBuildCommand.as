@@ -1,5 +1,6 @@
 package com.clementdauvent.admin.controller.commands
 {
+	import com.clementdauvent.admin.controller.events.DataFetchEvent;
 	import com.clementdauvent.admin.model.MainViewBuilderModel;
 	import com.clementdauvent.admin.view.components.MainView;
 	
@@ -53,7 +54,14 @@ package com.clementdauvent.admin.controller.commands
 			mainView.create(model.vo.data);
 			contextView.addChild(mainView);
 			
+			// Use the injector to turn this MainView instance into a singleton.
+			// Mediators for Image instance will use this as an injected dependency.
+			injector.mapValue(MainView, mainView);
+			
 			trace("[INFO] MainViewBuildCommand has created the MainView instance and added it to the display list");
+			
+			// Use the event bus to require data from the main model and initialize the build of images views.
+			eventDispatcher.dispatchEvent(new DataFetchEvent(DataFetchEvent.REQUIRE_DATA_FOR_IMAGES));
 		}
 	}
 }

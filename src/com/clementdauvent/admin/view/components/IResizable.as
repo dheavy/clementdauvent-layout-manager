@@ -5,11 +5,8 @@ package com.clementdauvent.admin.view.components
 	 */
 	public interface IResizable
 	{
-		/**
-		 * @public	rescale
-		 * @return 	void
-		 * Rescales element.
-		 */
-		function rescale():void;
+		function get elementWidth()		:Number;
+		function get elementHeight()	:Number;
+		function get scale()			:Number;
 	}
 }

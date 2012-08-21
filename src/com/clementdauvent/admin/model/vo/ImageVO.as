@@ -58,6 +58,14 @@ package com.clementdauvent.admin.model.vo
 		}
 		
 		/**
+		 * @return	A string representation of this instance.
+		 */
+		public function toString():String
+		{
+			return "[ImageVO — src: '" + src + "', originalWidth: " + originalWidth + ", originalHeight: " + originalHeight + ", isFirst: '" + isFirst + "', xOffset: " + xOffset + ", yOffset: " + yOffset + ", scale: " + scale + ", description: '" + description + "']";
+		}
+		
+		/**
 		 * @return	A String representation of the URL of the image resource.
 		 */
 		public function get src():String

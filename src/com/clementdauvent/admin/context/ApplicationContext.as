@@ -1,12 +1,15 @@
 package com.clementdauvent.admin.context
 {
 	import com.clementdauvent.admin.ClementDauventLayoutManager;
+	import com.clementdauvent.admin.controller.commands.ImagesAndTextsSetupCommand;
 	import com.clementdauvent.admin.controller.commands.MainViewBuildCommand;
 	import com.clementdauvent.admin.controller.commands.StartupCommand;
 	import com.clementdauvent.admin.controller.events.DataFetchEvent;
 	import com.clementdauvent.admin.model.ApplicationModel;
 	import com.clementdauvent.admin.model.MainViewBuilderModel;
+	import com.clementdauvent.admin.view.components.Image;
 	import com.clementdauvent.admin.view.components.MainView;
+	import com.clementdauvent.admin.view.mediators.ImageMediator;
 	import com.clementdauvent.admin.view.mediators.MainViewMediator;
 	import com.clementdauvent.admin.view.mediators.StageMediator;
 	
@@ -46,6 +49,7 @@ package com.clementdauvent.admin.context
 			// Defines Controller tier.
 			commandMap.mapEvent(DataFetchEvent.BEGIN, StartupCommand);
 			commandMap.mapEvent(DataFetchEvent.COMPLETE, MainViewBuildCommand);
+			commandMap.mapEvent(DataFetchEvent.REQUIRE_DATA_FOR_IMAGES, ImagesAndTextsSetupCommand);
 			
 			// Defines Model tier.
 			injector.mapSingleton(ApplicationModel);
@@ -54,6 +58,7 @@ package com.clementdauvent.admin.context
 			// Defines View tier.
 			mediatorMap.mapView(ClementDauventLayoutManager, StageMediator);
 			mediatorMap.mapView(MainView, MainViewMediator);
+			mediatorMap.mapView(Image, ImageMediator);
 			
 			// Start app.
 			dispatchEvent(new DataFetchEvent(DataFetchEvent.BEGIN));
