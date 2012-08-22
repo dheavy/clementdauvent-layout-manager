@@ -9,6 +9,7 @@ package com.clementdauvent.admin.context
 	import com.clementdauvent.admin.model.MainViewBuilderModel;
 	import com.clementdauvent.admin.view.components.Image;
 	import com.clementdauvent.admin.view.components.MainView;
+	import com.clementdauvent.admin.view.components.ContextMenuView;
 	import com.clementdauvent.admin.view.mediators.ImageMediator;
 	import com.clementdauvent.admin.view.mediators.MainViewMediator;
 	import com.clementdauvent.admin.view.mediators.StageMediator;

@@ -4,23 +4,24 @@ package com.clementdauvent.admin.view.components
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display.DisplayObject;
 	import flash.display.PixelSnapping;
 	import flash.display.Sprite;
-	import flash.display.DisplayObject;
 	
 	/**
 	 * <p>The view serving as a grided backdrop for the layout tool.</p>
 	 */
 	public class MainView extends Sprite implements IResizable
 	{
-		/*	@private	_bmp:Bitmap			The container for the gridded backdrop. */
-		protected var _bmp		:Bitmap;
+		/**
+		 * @private	The container for the gridded backdrop.
+		 */
+		protected var _bmp:Bitmap;
 		
-		/*	@private	_elements:Sprite	The container for the elements (images, texts) that will be added in here. */
-		protected var _elements	:Sprite;
-		
-		/*	@private	_mask:Sprite		The container for the mask over this container. */
-		protected var _mask		:Sprite;
+		/**
+		 * @private	The container for the elements (images, texts) that will be added in here.
+		 */
+		protected var _elements:Sprite;
 		
 		/**
 		 * @public	MainView
@@ -33,8 +34,7 @@ package com.clementdauvent.admin.view.components
 			_elements = new Sprite();
 			addChild(_elements);
 			
-			_mask = new Sprite();
-			addChild(_mask);
+			_bmp = new Bitmap();
 		}
 		
 		/**
@@ -43,7 +43,7 @@ package com.clementdauvent.admin.view.components
 		 */
 		public function get elementWidth():Number
 		{
-			return width / scaleX;	
+			return _bmp.width;	
 		}
 		
 		/**
@@ -52,7 +52,7 @@ package com.clementdauvent.admin.view.components
 		 */
 		public function get elementHeight():Number
 		{
-			return height / scaleY;
+			return _bmp.height;
 		}
 		
 		
@@ -74,13 +74,6 @@ package com.clementdauvent.admin.view.components
 		{
 			_bmp = new Bitmap(data, PixelSnapping.AUTO, true);
 			addChild(_bmp);
-			
-			// Now that we have the dimensions of the bitmap, the mask construction can be completed.
-			_mask.name = "mask";
-			_mask.graphics.beginFill(0, 0);
-			_mask.graphics.drawRect(0, 0, _bmp.width, _bmp.height);
-			_mask.graphics.endFill();
-			_mask.mouseEnabled = false;
 		}
 		
 		/**
@@ -94,14 +87,25 @@ package com.clementdauvent.admin.view.components
 		}
 		
 		/**
-		 * @public	activateMask
+		 * @public	setImageOnTop
+		 * @param	img:Image	An Image instance, children of the MainView container, to put on top of the stack.
 		 * @return	void
 		 * 
-		 * Activate the mask over this view, hiding all elements going out of its borders.
+		 * Push the selected Image on top of the visual image stack.
 		 */
-		public function activateMask():void
+		public function setImageOnTop(img:Image):void
 		{
-			_elements.mask = _mask;
+			if (_elements.contains(img) && _elements.numChildren > 1 && img != _elements.getChildAt(_elements.numChildren - 1)) {
+				while (img != _elements.getChildAt(_elements.numChildren - 1)) {
+					_elements.swapChildrenAt(_elements.getChildIndex(img), _elements.getChildIndex(img) + 1);
+				}
+				img.flash();
+			}
+		}
+		
+		public function returnImageUnderPoint():Image
+		{
+			
 		}
 	}
 }

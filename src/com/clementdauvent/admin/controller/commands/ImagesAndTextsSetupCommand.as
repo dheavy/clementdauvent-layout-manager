@@ -52,9 +52,6 @@ package com.clementdauvent.admin.controller.commands
 				
 				view.addElement(img);
 			}
-			
-			// After construction, apply the border masking for the MainView.
-			view.activateMask();
 		}
 	}
 }

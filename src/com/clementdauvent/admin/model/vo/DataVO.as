@@ -1,9 +1,8 @@
 package com.clementdauvent.admin.model.vo
 {
 	/**
-	 * DataVO
-	 * Value Object holding all data extracted from the JSON file on startup,
-	 * constitutive of the model for the application.
+	 * <p>Value Object holding all data extracted from the JSON file on startup,
+	 * constitutive of the model for the application.</p>
 	 */
 	public class DataVO
 	{

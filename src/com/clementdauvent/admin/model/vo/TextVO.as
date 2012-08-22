@@ -1,21 +1,34 @@
 package com.clementdauvent.admin.model.vo
 {
+	/**
+	 * <p>Value Object holding references to element constitutive of Text sections.</p>
+	 */
 	public class TextVO
 	{
-		/* @private	_title:String	The title of the text content. */
-		protected var _title	:String;
+		/**
+		 * @private	The title of the text content.
+		 */
+		protected var _title:String;
 		
-		/* @private	_content:String	The actual content of this text section. */
-		protected var _content	:String;
+		/**
+		 * @private	The actual content of this text section.
+		 */
+		protected var _content:String;
 		
-		/* @private	_isFirst:Boolean	Whether or not this section displays itself first on the website. */
-		protected var _isFirst	:Boolean;
+		/**
+		 * @private	Whether or not this section displays itself first on the website.
+		 */
+		protected var _isFirst:Boolean;
 		
-		/* @private	_xOffset:Number	The horizontal offset, in pixels, from the previous element in the list. */
-		protected var _xOffset	:Number;
+		/**
+		 * @private	The horizontal offset, in pixels, from the previous element in the list.
+		 */
+		protected var _xOffset:Number;
 		
-		/* @private _yOffset:Number	The vertical offset, in pixels, from the previous element in the list. */
-		protected var _yOffset	:Number;
+		/**
+		 * @private	The vertical offset, in pixels, from the previous element in the list.
+		 */
+		protected var _yOffset:Number;
 		
 		/**
 		 * @public 	TextVO

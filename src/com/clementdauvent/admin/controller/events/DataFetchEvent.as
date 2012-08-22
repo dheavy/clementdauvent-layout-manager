@@ -10,10 +10,10 @@ package com.clementdauvent.admin.controller.events
 	public class DataFetchEvent extends Event
 	{
 		/* @public BEGIN:String	Event type "setupBegin". */
-		public static const BEGIN		:String = "setupBegin";
+		public static const BEGIN:String = "setupBegin";
 		
 		/* @public	COMPLETE:String	Event type "setupComplete". */
-		public static const COMPLETE	:String = "setupComplete";
+		public static const COMPLETE:String = "setupComplete";
 		
 		public static const REQUIRE_DATA_FOR_IMAGES:String = "requireDataForImages";
 				

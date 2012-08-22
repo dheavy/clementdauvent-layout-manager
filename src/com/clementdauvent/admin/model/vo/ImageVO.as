@@ -9,28 +9,44 @@ package com.clementdauvent.admin.model.vo
 	 */
 	public class ImageVO
 	{
-		/* @private	_src:String	URL of the image resource. */
-		protected var _src				:String;
+		/**
+		 * @private	URL of the image resource.
+		 */
+		protected var _src:String;
 		
-		/* @private	_originalWidth:Number	Original width of the image. */
+		/**
+		 * @private	Original width of the image.
+		 */
 		protected var _originalWidth	:Number;
 		
-		/* @private	_originalHeight:Number	Original height of the image. */
+		/**
+		 * @private	Original height of the image.
+		 */
 		protected var _originalHeight	:Number;
 		
-		/* @private	_isFirst:Boolean	Whether image is used as "first image" to appear on website. */
+		/**
+		 * @private	Whether image is used as "first image" to appear on website.
+		 */
 		protected var _isFirst			:Boolean;
 		
-		/* @private	_xOffset:Number	Horizontal offset of the image, relative to the previous one in the list. */
+		/**
+		 * @private	Horizontal offset of the image, relative to the previous one in the list.
+		 */
 		protected var _xOffset			:Number;
 		
-		/* @private	_yOffset:Number	Vertical offset of the image, relative to the previous one in the list. */
+		/**
+		 * @private	Vertical offset of the image, relative to the previous one in the list.
+		 */
 		protected var _yOffset			:Number;
 		
-		/* @private	_scale	The scale of the image, relative to the "first image". */
+		/**
+		 * @private	The scale of the image, relative to the "first image".
+		 */
 		protected var _scale			:Number;
 		
-		/* @private	_description	The information text for this image. */
+		/**
+		 * @private	The information text for this image.
+		 */
 		protected var _description		:String;
 		
 		/**

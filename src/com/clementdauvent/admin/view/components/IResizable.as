@@ -5,8 +5,8 @@ package com.clementdauvent.admin.view.components
 	 */
 	public interface IResizable
 	{
-		function get elementWidth()		:Number;
-		function get elementHeight()	:Number;
-		function get scale()			:Number;
+		function get elementWidth():Number;
+		function get elementHeight():Number;
+		function get scale():Number;
 	}
 }

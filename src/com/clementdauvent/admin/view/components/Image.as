@@ -22,41 +22,65 @@ package com.clementdauvent.admin.view.components
 	 */
 	public class Image extends Sprite implements IResizable
 	{
-		/* @public	HANDLE_DIMENSIONS:Number	Dimensions for the handle image. */
-		public static const HANDLE_DIMENSIONS	:Number = 250;
+		/**
+		 * Dimensions for the handle image.
+		 */
+		public static const HANDLE_DIMENSIONS:Number = 250;
 		
-		/* @public	HANDLE_GFX_SRC:String	URL of the image resource for the resize handle. */
-		public static const HANDLE_GFX_SRC		:String = 'img/rescale_handle.png';
+		/**
+		 * URL of the image resource for the resize handle.
+		 */
+		public static const HANDLE_GFX_SRC:String = 'img/rescale_handle.png';
 		
-		/* @private	_id:uint	The unique ID for this instance. */
-		protected var _id						:uint;
+		/**
+		 * @private	The unique ID for this instance.
+		 */
+		protected var _id:uint;
 		
-		/* @private	_src:String	URL for the image resource of this Image instance. */
-		protected var _src						:String;
+		/**
+		 * @private	URL for the image resource of this Image instance.
+		 */
+		protected var _src:String;
 		
-		/* @private	_elementWidth:Number	Expected width of this element. */
-		protected var _elementWidth				:Number;
+		/**
+		 * @private	Expected width of this element.
+		 */
+		protected var _elementWidth:Number;
 		
-		/* @private	_elementHeight:Number	Expected height of this element. */
-		protected var _elementHeight			:Number;
+		/**
+		 * @private	Expected height of this element.
+		 */
+		protected var _elementHeight:Number;
 		
-		/* @private	_referenceDimension:Number	The value used as reference to compute the scaled dimensions of this instance.*/
-		protected var _referenceDimension		:Number;
+		/**
+		 * @private	The value used as reference to compute the scaled dimensions of this instance.
+		 */
+		protected var _referenceDimension:Number;
 		
-		/* @private	_handleLoader:Loader	The Loader instance loading the resource handle image. */
-		protected var _handleLoader				:Loader;
+		/**
+		 * @private	The Loader instance loading the resource handle image.
+		 */
+		protected var _handleLoader:Loader;
 		
-		/* @private	_handle:Sprite	The resize handle. */
-		protected var _handle					:Sprite;
+		/**
+		 * @private	The resize handle.
+		 */
+		protected var _handle:Sprite;
 		
-		/* @private	_img:Bitmap	The image container. */
-		protected var _img						:Sprite;
+		/**
+		 * @private	The image container.
+		 */
+		protected var _img:Sprite;
 		
-		/* @private _imgLoader:Loader	The Loader loading the image resource. */
-		protected var _imgLoader				:Loader;
+		/**
+		 * @private	The Loader loading the image resource.
+		 */
+		protected var _imgLoader:Loader;
 		
-		/* @private	_progressBar:Shape	The loading bar used to show progress of image loading. */
-		protected var _progressBar				:Shape;
+		/**
+		 * @private	The loading bar used to show progress of image loading.
+		 */
+		protected var _progressBar:Shape;
 		
 		/**
 		 * @public	Image
@@ -187,6 +211,15 @@ package com.clementdauvent.admin.view.components
 				scaleAndPositionHandle();
 				return;
 			}
+		}
+		
+		public function flash():void
+		{
+			TweenMax.to(_img, .2, { glowFilter: { color: 0xFFFFFF, alpha: 1, blurX: 20, blurY: 20 }, onComplete: 
+				function():void {
+					TweenMax.to(_img, 1.5, { glowFilter: { color: 0xFFFFFF, alpha: 0, blurX: 0, blurY: 20 } } );
+				}
+			} );
 		}
 		
 		/**

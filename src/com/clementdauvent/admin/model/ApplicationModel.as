@@ -20,14 +20,20 @@ package com.clementdauvent.admin.model
 	 */
 	public class ApplicationModel extends Actor
 	{
-		/* @public	JSON_FILE:String	URL of the JSON data file. */
-		public static const JSON_FILE	:String = "data/data.json";
+		/**
+		 * URL of the JSON data file.
+		 */
+		public static const JSON_FILE:String = "data/data.json";
 		
-		/* @private	_jsonLoader:URLLoader	URLLoader to fetch JSON file. */
-		protected var _jsonLoader		:URLLoader;
+		/**
+		 * @private	URLLoader to fetch JSON file.
+		 */
+		protected var _jsonLoader:URLLoader;
 		
-		/* @private	_data:DataVO	DataVO instance holding model data. */
-		protected var _data				:DataVO;
+		/**
+		 * @private	DataVO instance holding model data.
+		 */
+		protected var _data:DataVO;
 		
 		/**
 		 * @public	ApplicationModel

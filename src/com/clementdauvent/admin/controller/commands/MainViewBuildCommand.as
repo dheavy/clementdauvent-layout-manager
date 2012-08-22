@@ -2,6 +2,7 @@ package com.clementdauvent.admin.controller.commands
 {
 	import com.clementdauvent.admin.controller.events.DataFetchEvent;
 	import com.clementdauvent.admin.model.MainViewBuilderModel;
+	import com.clementdauvent.admin.view.components.ContextMenuView;
 	import com.clementdauvent.admin.view.components.MainView;
 	
 	import flash.events.Event;
@@ -50,8 +51,15 @@ package com.clementdauvent.admin.controller.commands
 		 */
 		protected function createMainView():void
 		{
+			// Create the main view.
 			var mainView:MainView = new MainView();
 			mainView.create(model.vo.data);
+			
+			// Create the custom context menu.
+			var contextMenu:ContextMenuView = new ContextMenuView();
+			mainView.contextMenu = contextMenu.menu;
+			
+			// Add the view to the display list.
 			contextView.addChild(mainView);
 			
 			// Use the injector to turn this MainView instance into a singleton.

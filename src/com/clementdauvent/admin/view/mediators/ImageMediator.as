@@ -1,10 +1,12 @@
 package com.clementdauvent.admin.view.mediators
 {
+	import com.clementdauvent.admin.controller.events.ImageEvent;
 	import com.clementdauvent.admin.view.components.Image;
 	import com.clementdauvent.admin.view.components.MainView;
 	
 	import flash.display.Stage;
 	import flash.events.Event;
+	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	
@@ -15,13 +17,22 @@ package com.clementdauvent.admin.view.mediators
 	 */
 	public class ImageMediator extends Mediator
 	{
-		/*	@public	image:Image			The injected image instance this mediator mediates. */
+		/**
+		 * The injected image instance this mediator mediates. 
+		 */		
 		[Inject]
 		public var image:Image;
 		
-		/*	@public	surface:MainView	An injected dependency of the singleton instance of the MainView, parent for instances of Image. */
+		/**
+		 * An injected dependency of the singleton instance of the MainView, parent for instances of Image. 
+		 */		
 		[Inject]
 		public var surface:MainView;
+		
+		/**
+		 * Boolean flag set to true if user is currently pressing the SHIFT key. 
+		 */		
+		protected var _shiftKeyPressed:Boolean;
 		
 		/**
 		 * @public	onRegister
@@ -31,6 +42,7 @@ package com.clementdauvent.admin.view.mediators
 		 */
 		override public function onRegister():void
 		{
+			_shiftKeyPressed = false;
 			image.addEventListener(Event.ADDED_TO_STAGE, initView);
 		}
 		
@@ -44,8 +56,9 @@ package com.clementdauvent.admin.view.mediators
 		protected function initView(e:Event):void
 		{
 			image.removeEventListener(Event.ADDED_TO_STAGE, initView);
-			
+
 			image.addEventListener(MouseEvent.MOUSE_DOWN, image_mouseDownHandler);
+			image.stage.addEventListener(KeyboardEvent.KEY_DOWN, stage_keyboardDownHandler);
 			
 			eventDispatcher.addEventListener(MouseEvent.CLICK, eventBus_clickHandler);
 			eventDispatcher.addEventListener(MouseEvent.MOUSE_WHEEL, eventBus_mouseWheelHandler);
@@ -57,17 +70,24 @@ package com.clementdauvent.admin.view.mediators
 		 * @return	void
 		 * 
 		 * Event handler triggered when user's mouse button is down on the mediated image.
-		 * Enables dragging.
+		 * Enables dragging, or place image on top of the stack if alt-key is pressed.
 		 */
 		protected function image_mouseDownHandler(e:MouseEvent):void
 		{
 			e.stopImmediatePropagation();
 			
+			if (_shiftKeyPressed) {
+				trace("[INFO] Placing Image " + image.id + " on top of the stack");
+				eventDispatcher.dispatchEvent(new ImageEvent(image, ImageEvent.PLACE_ON_TOP));
+				return;
+			}
+			
 			image.addEventListener(MouseEvent.MOUSE_UP, image_mouseUpHandler);
+			image.stage.addEventListener(MouseEvent.MOUSE_UP, image_mouseUpHandler);
 			image.addEventListener(Event.ENTER_FRAME, monitorMouseInBounds);
 			image.removeEventListener(MouseEvent.MOUSE_DOWN, image_mouseDownHandler);
 			
-			image.startDrag();
+			image.startDrag(false, new Rectangle(0, 0, surface.elementWidth - image.elementWidth, surface.elementHeight - image.elementHeight));
 		}
 		
 		/**
@@ -85,6 +105,8 @@ package com.clementdauvent.admin.view.mediators
 			image.addEventListener(MouseEvent.MOUSE_DOWN, image_mouseDownHandler);
 			image.removeEventListener(Event.ENTER_FRAME, monitorMouseInBounds);
 			image.removeEventListener(MouseEvent.MOUSE_UP, image_mouseUpHandler);
+			image.stage.removeEventListener(MouseEvent.MOUSE_UP, image_mouseUpHandler);
+			
 			image.stopDrag();
 		}
 		
@@ -102,6 +124,40 @@ package com.clementdauvent.admin.view.mediators
 			if (mouseX < 0 || mouseX > surface.elementWidth || mouseY < 0 || mouseY > surface.elementHeight) {
 				image.stopDrag();
 			}
+		}
+		
+		/**
+		 * @private	stage_keyboardDownHandler
+		 * @param	e:KeyboardEvent		The Event passed during the process.
+		 * @return	void
+		 * 
+		 * Event handler triggered when user presses a key on the keyboard.
+		 * Switches boolean flag if user presses the SHIFT key.
+		 */
+		protected function stage_keyboardDownHandler(e:KeyboardEvent):void
+		{
+			image.stage.removeEventListener(KeyboardEvent.KEY_DOWN, stage_keyboardDownHandler);
+			image.stage.addEventListener(KeyboardEvent.KEY_UP, stage_keyboardUpHandler);
+			
+			if (e.shiftKey) {
+				_shiftKeyPressed = true;
+			}
+		}
+		
+		/**
+		 * @private	stage_keyboardUpHandler
+		 * @param	e:KeyboardEvent		The Event passed during the process.
+		 * @return	void
+		 * 
+		 * Event handler triggered when user presses a key on the keyboard.
+		 * Switches boolean flag if user releases the SHIFT key.
+		 */
+		protected function stage_keyboardUpHandler(e:KeyboardEvent):void
+		{
+			image.stage.addEventListener(KeyboardEvent.KEY_DOWN, stage_keyboardDownHandler);
+			image.stage.removeEventListener(KeyboardEvent.KEY_UP, stage_keyboardUpHandler);
+			
+			_shiftKeyPressed = false;
 		}
 		
 		/**

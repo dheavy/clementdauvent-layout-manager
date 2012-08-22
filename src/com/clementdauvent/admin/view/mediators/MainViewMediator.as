@@ -1,14 +1,17 @@
 package com.clementdauvent.admin.view.mediators
 {
+	import com.clementdauvent.admin.controller.events.ImageEvent;
 	import com.clementdauvent.admin.view.components.MainView;
 	import com.greensock.TweenMax;
 	import com.greensock.plugins.TransformAroundPointPlugin;
 	import com.greensock.plugins.TweenPlugin;
 	
+	import flash.events.ContextMenuEvent;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
+	import flash.ui.ContextMenu;
 	import flash.utils.Timer;
 	
 	import org.robotlegs.mvcs.Mediator;
@@ -18,36 +21,56 @@ package com.clementdauvent.admin.view.mediators
 	 */
 	public class MainViewMediator extends Mediator
 	{
-		/*	@public	view:MainView	The injected MainView instance mediated by this Mediator. */
+		/**
+		 * The injected MainView instance mediated by this Mediator. 
+		 */
 		[Inject]
-		public var view				:MainView;
+		public var view:MainView;
 		
-		/*	@private	_isDragged:Boolean	Whether or not the user is currently trying to move around the gridded view. */
-		protected var _isDragged	:Boolean = false;
+		/**
+		 * @private	Whether or not the user is currently trying to move around the gridded view.
+		 */
+		protected var _isDragged:Boolean = false;
 		
-		/*	@private	_isZooming:Boolean	Whether or not the user is currently trying to zoom in and out of the gridded view. */
-		protected var _isZooming	:Boolean = false;
+		/**
+		 * @private	Whether or not the user is currently trying to zoom in and out of the gridded view.
+		 */
+		protected var _isZooming:Boolean = false;
 		
-		/*	@private	_offsetX:Number	A calculated horizontal offset between the click point and the top-left corner of the view. */
-		protected var _offsetX		:Number = 0;
+		/**
+		 * @private	A calculated horizontal offset between the click point and the top-left corner of the view.
+		 */
+		protected var _offsetX:Number = 0;
 		
-		/*	@private	_offsetY:Number	A calculated vertical offset between the click point and the top-left corner of the view. */
-		protected var _offsetY		:Number = 0;
+		/**
+		 * @private	A calculated vertical offset between the click point and the top-left corner of the view.
+		 */
+		protected var _offsetY:Number = 0;
 		
-		/*	@private	_prevX:Number	Used to compute interia. */
-		protected var _prevX		:Number = 0;
+		/**
+		 * @private	Used to compute interia.
+		 */
+		protected var _prevX:Number = 0;
 		
-		/*	@private	_prevY:Number	Used to compute interia. */
-		protected var _prevY		:Number = 0;
+		/**
+		 * @private	Used to compute interia.
+		 */
+		protected var _prevY:Number = 0;
 		
-		/*	@private	_vx:Number	Used to compute interia. */
-		protected var _vx			:Number = 0;
+		/**
+		 * @private	Used to compute interia.
+		 */
+		protected var _vx:Number = 0;
 		
-		/*	@private	_vy:Number	Used to compute interia. */
-		protected var _vy			:Number = 0;
+		/**
+		 * @private	Used to compute interia.
+		 */
+		protected var _vy:Number = 0;
 		
-		/*	@private	_friction:Number	Used to compute interia. */
-		protected var _friction		:Number = .7;
+		/**
+		 * @private	Used to compute interia.
+		 */
+		protected var _friction:Number = .7;
 		
 		/**
 		 * @public	onRegister
@@ -88,6 +111,9 @@ package com.clementdauvent.admin.view.mediators
 			view.addEventListener(MouseEvent.MOUSE_OUT, view_mouseReleaseHandler);
 			
 			eventDispatcher.addEventListener(MouseEvent.MOUSE_WHEEL, eventBus_mouseWheelHandler);
+			eventDispatcher.addEventListener(ImageEvent.PLACE_ON_TOP, eventBus_imagePlaceOnTopHandler);
+			
+			view.contextMenu.addEventListener(ContextMenuEvent.MENU_SELECT, monitorRightClick);
 			
 			trace("[INFO] MainViewMediator finished configuring the MainView instance");
 			
@@ -117,6 +143,13 @@ package com.clementdauvent.admin.view.mediators
 				view.x += _vx;
 				view.y += _vy;
 			}
+		}
+		
+		protected function monitorRightClick(e:ContextMenuEvent):void
+		{
+			var mousePos:Point = new Point(view.mouseX, view.mouseY);
+			
+			
 		}
 		
 		/**
@@ -172,6 +205,11 @@ package com.clementdauvent.admin.view.mediators
 					_isZooming = false;
 				} 
 			});
+		}
+		
+		protected function eventBus_imagePlaceOnTopHandler(e:ImageEvent):void
+		{
+			view.setImageOnTop(e.img);
 		}
 				
 	}
