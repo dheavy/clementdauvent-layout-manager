@@ -1,6 +1,8 @@
 package com.clementdauvent.admin.view.mediators
 {
 	import com.clementdauvent.admin.controller.events.ImageEvent;
+	import com.clementdauvent.admin.view.components.ContextMenuView;
+	import com.clementdauvent.admin.view.components.Image;
 	import com.clementdauvent.admin.view.components.MainView;
 	import com.greensock.TweenMax;
 	import com.greensock.plugins.TransformAroundPointPlugin;
@@ -14,6 +16,7 @@ package com.clementdauvent.admin.view.mediators
 	import flash.ui.ContextMenu;
 	import flash.utils.Timer;
 	
+	import org.robotlegs.mvcs.Context;
 	import org.robotlegs.mvcs.Mediator;
 	
 	/**
@@ -26,6 +29,12 @@ package com.clementdauvent.admin.view.mediators
 		 */
 		[Inject]
 		public var view:MainView;
+		
+		/**
+		 * The injected ContextMenuView instance holding the context menu attached to the MainView.
+		 */
+		[Inject]
+		public var contextMenu:ContextMenuView;
 		
 		/**
 		 * @private	Whether or not the user is currently trying to move around the gridded view.
@@ -115,6 +124,9 @@ package com.clementdauvent.admin.view.mediators
 			
 			view.contextMenu.addEventListener(ContextMenuEvent.MENU_SELECT, monitorRightClick);
 			
+			contextMenu.promoteFirstBtn.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, contextMenu_promoteFirstHandler);
+			contextMenu.publishBtn.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, contextMenu_publisHandler);
+			
 			trace("[INFO] MainViewMediator finished configuring the MainView instance");
 			
 			viewAll();
@@ -148,8 +160,13 @@ package com.clementdauvent.admin.view.mediators
 		protected function monitorRightClick(e:ContextMenuEvent):void
 		{
 			var mousePos:Point = new Point(view.mouseX, view.mouseY);
+			var img:Image = view.returnImageUnderPoint(mousePos);
 			
-			
+			if (img) {
+				contextMenu.canPromoteAsFirstImage = true;
+			} else {
+				contextMenu.canPromoteAsFirstImage = false;
+			}
 		}
 		
 		/**
@@ -210,6 +227,16 @@ package com.clementdauvent.admin.view.mediators
 		protected function eventBus_imagePlaceOnTopHandler(e:ImageEvent):void
 		{
 			view.setImageOnTop(e.img);
+		}
+		
+		protected function contextMenu_promoteFirstHandler(e:ContextMenuEvent):void
+		{
+			trace("Promoted " + (view.returnImageUnderPoint(new Point(view.mouseX, view.mouseY)) as Image).toString());
+		}
+		
+		protected function contextMenu_publisHandler(e:ContextMenuEvent):void
+		{
+			
 		}
 				
 	}

@@ -59,12 +59,12 @@ package com.clementdauvent.admin.controller.commands
 			var contextMenu:ContextMenuView = new ContextMenuView();
 			mainView.contextMenu = contextMenu.menu;
 			
+			// Use the injector to turn this MainView and ContextMenuView instances into singletons.
+			injector.mapValue(MainView, mainView);
+			injector.mapValue(ContextMenuView, contextMenu);
+			
 			// Add the view to the display list.
 			contextView.addChild(mainView);
-			
-			// Use the injector to turn this MainView instance into a singleton.
-			// Mediators for Image instance will use this as an injected dependency.
-			injector.mapValue(MainView, mainView);
 			
 			trace("[INFO] MainViewBuildCommand has created the MainView instance and added it to the display list");
 			

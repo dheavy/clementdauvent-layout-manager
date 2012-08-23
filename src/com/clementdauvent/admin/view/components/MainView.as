@@ -7,6 +7,7 @@ package com.clementdauvent.admin.view.components
 	import flash.display.DisplayObject;
 	import flash.display.PixelSnapping;
 	import flash.display.Sprite;
+	import flash.geom.Point;
 	
 	/**
 	 * <p>The view serving as a grided backdrop for the layout tool.</p>
@@ -103,9 +104,18 @@ package com.clementdauvent.admin.view.components
 			}
 		}
 		
-		public function returnImageUnderPoint():Image
+		public function returnImageUnderPoint(p:Point):Image
 		{
+			var i:int = _elements.numChildren - 1;
 			
+			for (i; i > 0; i--) {
+				var img:Image = _elements.getChildAt(i) as Image;
+				if ((img.x < p.x && img.x + img.elementWidth > p.x) && (img.y < p.y && img.y + img.elementHeight > p.y)) {
+					return img;
+				}
+			}
+			
+			return null;
 		}
 	}
 }

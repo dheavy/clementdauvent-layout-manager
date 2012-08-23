@@ -31,6 +31,16 @@ package com.clementdauvent.admin.view.components
 			return _menu;
 		}
 		
+		public function get promoteFirstBtn():ContextMenuItem
+		{
+			return _promoteFirstItem;	
+		}
+		
+		public function get publishBtn():ContextMenuItem
+		{
+			return _publishItem;
+		}
+		
 		public function get canPromoteAsFirstImage():Boolean
 		{
 			return _canPromoteAsFirstImage;

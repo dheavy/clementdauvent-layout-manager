@@ -1,5 +1,8 @@
 package com.clementdauvent.admin.view.components
 {
+	import com.clementdauvent.admin.view.components.IResizable;
+	import com.greensock.TweenMax;
+	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Graphics;
@@ -12,10 +15,6 @@ package com.clementdauvent.admin.view.components
 	import flash.events.MouseEvent;
 	import flash.events.ProgressEvent;
 	import flash.net.URLRequest;
-	
-	import com.clementdauvent.admin.view.components.IResizable;
-	
-	import com.greensock.TweenMax;
 	
 	/**
 	 * <p>The Image view used to represent image content on the Surface</p>
@@ -82,6 +81,8 @@ package com.clementdauvent.admin.view.components
 		 */
 		protected var _progressBar:Shape;
 		
+		protected var _isFirst:Boolean = false;
+		
 		/**
 		 * @public	Image
 		 * @param	id:uint		Unique ID for this instance.
@@ -137,6 +138,22 @@ package com.clementdauvent.admin.view.components
 		public function get scale():Number
 		{
 			return _img.scaleY;
+		}
+		
+		public function get isFirst():Boolean
+		{
+			return _isFirst;
+		}
+		
+		public function set isFist(value:Boolean):void
+		{
+			_isFirst = value;
+			promote(value);
+		}
+		
+		override public function toString():String
+		{
+			return "[Image — id: " + id + ", src: " + _src + ", elementWidth: " + elementWidth + ", elementHeight: " + elementHeight + ", scale: " + scale + "]";
 		}
 		
 		/**
@@ -220,6 +237,15 @@ package com.clementdauvent.admin.view.components
 					TweenMax.to(_img, 1.5, { glowFilter: { color: 0xFFFFFF, alpha: 0, blurX: 0, blurY: 20 } } );
 				}
 			} );
+		}
+		
+		public function promote(value:Boolean):void
+		{
+			if (value) {
+				TweenMax.to(_img, 1, { colorTransform: { tint: 0x00CCFF, tintAmount: .5 } }); 
+			} else {
+				TweenMax.to(_img, .5, { colorTransform: { tint: 0x00CCFF, tintAmount: 0 } }); 
+			}
 		}
 		
 		/**
