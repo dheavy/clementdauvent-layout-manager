@@ -23,6 +23,12 @@ package com.clementdauvent.admin.controller.events
 		 * Event type "requireDataForImages"
 		 */
 		public static const REQUIRE_DATA_FOR_IMAGES:String = "requireDataForImages";
+		
+		public static const PUSH_DATA_FOR_PUBLISHING:String = "pushDataForPublishing";
+		
+		public static const DATA_SAVE_SUCCESS:String = "dataSaveSuccess";
+		
+		public static const DATA_SAVE_ERROR:String = "dataSaveError";
 				
 		/**
 		 * A DataVO instance that instances of DataFetchEvent may carry around. 

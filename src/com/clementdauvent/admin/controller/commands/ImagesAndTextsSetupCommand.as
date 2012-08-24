@@ -52,7 +52,7 @@ package com.clementdauvent.admin.controller.commands
 			
 			for (i; i < length; i++) {
 				var iVo:ImageVO = images[i];
-				var img:Image = new Image(i, iVo.src, iVo.originalWidth, iVo.originalHeight);
+				var img:Image = new Image(i, iVo.src, iVo.originalWidth, iVo.originalHeight, iVo.description);
 				
 				if (j > ImagesAndTextsSetupCommand.ROWS) j = 0;
 				img.x = j * ImagesAndTextsSetupCommand.OFFSET;

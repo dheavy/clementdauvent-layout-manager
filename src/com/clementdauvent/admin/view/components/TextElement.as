@@ -1,5 +1,6 @@
 package com.clementdauvent.admin.view.components
 {
+	import com.clementdauvent.admin.model.vo.TextVO;
 	import com.clementdauvent.admin.view.components.IDraggable;
 	import com.clementdauvent.admin.view.components.IResizable;
 	import com.greensock.TweenMax;
@@ -73,6 +74,11 @@ package com.clementdauvent.admin.view.components
 					TweenMax.to(_background, 1.5, { glowFilter: { color: 0xFFFFFF, alpha: 0, blurX: 0, blurY: 20 } } );
 				}
 			} );
+		}
+		
+		public function serialize():TextVO
+		{
+			return new TextVO(_title, _content, isFirst, x, y);
 		}
 		
 		protected function init(e:Event):void

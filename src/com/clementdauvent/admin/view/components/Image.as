@@ -1,5 +1,6 @@
 package com.clementdauvent.admin.view.components
 {
+	import com.clementdauvent.admin.model.vo.ImageVO;
 	import com.clementdauvent.admin.view.components.IDraggable;
 	import com.clementdauvent.admin.view.components.IResizable;
 	import com.greensock.TweenMax;
@@ -87,23 +88,27 @@ package com.clementdauvent.admin.view.components
 		 */
 		protected var _isFirst:Boolean = false;
 		
+		protected var _desc:String;
+		
 		/**
 		 * @public	Image
 		 * @param	id:uint		Unique ID for this instance.
 		 * @param	src:String	URL for this image resource.
 		 * @param	w:Number	Basic witdh for this element.
 		 * @param	h:Number	Basic height for this element.
+		 * @param	desc:String	The image description.
 		 * @return	this
 		 * 
 		 * Creates an instance of draggable, resizable Image element.
 		 */
-		public function Image(id:uint, src:String, w:Number, h:Number)
+		public function Image(id:uint, src:String, w:Number, h:Number, desc:String)
 		{
 			_id = id;
 			_src = src;
 			_elementWidth = w;
 			_elementHeight = h;
 			_referenceDimension = h;
+			_desc = desc;
 			
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
@@ -173,6 +178,11 @@ package com.clementdauvent.admin.view.components
 		override public function toString():String
 		{
 			return "[Image — id: " + id + ", src: " + _src + ", elementWidth: " + elementWidth + ", elementHeight: " + elementHeight + ", scale: " + scale + "]";
+		}
+		
+		public function serialize():ImageVO
+		{
+			return new ImageVO(_src, elementWidth, elementHeight, isFirst, x, y, scale, _desc);
 		}
 		
 		/**

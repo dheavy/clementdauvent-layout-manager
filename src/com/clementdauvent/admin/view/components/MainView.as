@@ -1,11 +1,10 @@
 package com.clementdauvent.admin.view.components
 {	
-	import com.clementdauvent.admin.view.components.IResizable;
 	import com.clementdauvent.admin.view.components.IDraggable;
+	import com.clementdauvent.admin.view.components.IResizable;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
-	import flash.display.Sprite;
 	import flash.display.PixelSnapping;
 	import flash.display.Sprite;
 	import flash.geom.Point;
@@ -24,6 +23,11 @@ package com.clementdauvent.admin.view.components
 		 * @private	The container for the elements (images, texts) that will be added in here.
 		 */
 		protected var _elements:Sprite;
+		
+		/**
+		 * @private	Whether or not the publication is enabled.
+		 */
+		protected var _canPublish:Boolean;
 		
 		/**
 		 * @public	MainView
@@ -74,6 +78,15 @@ package com.clementdauvent.admin.view.components
 		public function get elements():Sprite
 		{
 			return _elements;
+		}
+		
+		/**
+		 * @public	canPublish
+		 * @return	Whether or not the publication is enabled.
+		 */
+		public function get canPublish():Boolean
+		{
+			return _canPublish;
 		}
 		
 		/**
@@ -128,6 +141,7 @@ package com.clementdauvent.admin.view.components
 				if (_elements.getChildAt(i) is IDraggable) {
 					if (_elements.getChildAt(i) === elm) {
 						IDraggable(_elements.getChildAt(i)).isFirst = true;
+						_canPublish = true;
 					} else {
 						IDraggable(_elements.getChildAt(i)).isFirst = false;
 					}

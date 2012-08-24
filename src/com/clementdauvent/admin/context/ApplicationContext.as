@@ -1,6 +1,7 @@
 package com.clementdauvent.admin.context
 {
 	import com.clementdauvent.admin.ClementDauventLayoutManager;
+	import com.clementdauvent.admin.controller.commands.PublishDataCommand;
 	import com.clementdauvent.admin.controller.commands.ImagesAndTextsSetupCommand;
 	import com.clementdauvent.admin.controller.commands.MainViewBuildCommand;
 	import com.clementdauvent.admin.controller.commands.StartupCommand;
@@ -53,6 +54,7 @@ package com.clementdauvent.admin.context
 			commandMap.mapEvent(DataFetchEvent.BEGIN, StartupCommand);
 			commandMap.mapEvent(DataFetchEvent.COMPLETE, MainViewBuildCommand);
 			commandMap.mapEvent(DataFetchEvent.REQUIRE_DATA_FOR_IMAGES, ImagesAndTextsSetupCommand);
+			commandMap.mapEvent(DataFetchEvent.PUSH_DATA_FOR_PUBLISHING, PublishDataCommand);
 			
 			// Defines Model tier.
 			injector.mapSingleton(ApplicationModel);

@@ -1,11 +1,16 @@
 package com.clementdauvent.admin.view.mediators
 {
+	import com.clementdauvent.admin.controller.events.DataFetchEvent;
 	import com.clementdauvent.admin.controller.events.ElementEvent;
+	import com.clementdauvent.admin.model.vo.DataVO;
+	import com.clementdauvent.admin.model.vo.ImageVO;
+	import com.clementdauvent.admin.model.vo.TextVO;
 	import com.clementdauvent.admin.view.components.ContextMenuView;
 	import com.clementdauvent.admin.view.components.IDraggable;
 	import com.clementdauvent.admin.view.components.IResizable;
 	import com.clementdauvent.admin.view.components.Image;
 	import com.clementdauvent.admin.view.components.MainView;
+	import com.clementdauvent.admin.view.components.TextElement;
 	import com.greensock.TweenMax;
 	import com.greensock.plugins.TransformAroundPointPlugin;
 	import com.greensock.plugins.TweenPlugin;
@@ -182,6 +187,12 @@ package com.clementdauvent.admin.view.mediators
 			} else {
 				contextMenu.canPromoteAsFirstElement = false;
 			}
+			
+			if (view.canPublish) {
+				contextMenu.canPublish = true;
+			} else {
+				contextMenu.canPublish = false;
+			}
 		}
 		
 		/**
@@ -279,7 +290,21 @@ package com.clementdauvent.admin.view.mediators
 		 */
 		protected function contextMenu_publishHandler(e:ContextMenuEvent):void
 		{
-			// TODO: Handle publication.
+			var i:int = 0, length:int = view.elements.numChildren;
+			var vo:DataVO = new DataVO(new Vector.<ImageVO>, new Vector.<TextVO>);
+			
+			for (i; i < length; i++) {
+				var elm:*;
+				if (view.elements.getChildAt(i) is Image) {
+					elm = view.elements.getChildAt(i) as Image;
+					vo.images.push(Image(elm).serialize());
+				} else if (view.elements.getChildAt(i) is TextElement) {
+					elm = view.elements.getChildAt(i) as TextElement;
+					vo.texts.push(TextElement(elm).serialize());
+				}
+			}
+			
+			eventDispatcher.dispatchEvent(new DataFetchEvent(DataFetchEvent.PUSH_DATA_FOR_PUBLISHING, vo));
 		}
 				
 	}
