@@ -145,7 +145,7 @@ package com.clementdauvent.admin.view.components
 			return _isFirst;
 		}
 		
-		public function set isFist(value:Boolean):void
+		public function set isFirst(value:Boolean):void
 		{
 			_isFirst = value;
 			promote(value);

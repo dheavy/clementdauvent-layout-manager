@@ -125,7 +125,7 @@ package com.clementdauvent.admin.view.mediators
 			view.contextMenu.addEventListener(ContextMenuEvent.MENU_SELECT, monitorRightClick);
 			
 			contextMenu.promoteFirstBtn.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, contextMenu_promoteFirstHandler);
-			contextMenu.publishBtn.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, contextMenu_publisHandler);
+			contextMenu.publishBtn.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, contextMenu_publishHandler);
 			
 			trace("[INFO] MainViewMediator finished configuring the MainView instance");
 			
@@ -162,7 +162,7 @@ package com.clementdauvent.admin.view.mediators
 			var mousePos:Point = new Point(view.mouseX, view.mouseY);
 			var img:Image = view.returnImageUnderPoint(mousePos);
 			
-			if (img) {
+			if (img && !img.isFirst) {
 				contextMenu.canPromoteAsFirstImage = true;
 			} else {
 				contextMenu.canPromoteAsFirstImage = false;
@@ -231,10 +231,12 @@ package com.clementdauvent.admin.view.mediators
 		
 		protected function contextMenu_promoteFirstHandler(e:ContextMenuEvent):void
 		{
-			trace("Promoted " + (view.returnImageUnderPoint(new Point(view.mouseX, view.mouseY)) as Image).toString());
+			var img:Image = view.returnImageUnderPoint(new Point(view.mouseX, view.mouseY)) as Image;
+			view.setAsFirstImage(img);
+			trace("[INFO] Promoted " + img.toString() + " as First Image");
 		}
 		
-		protected function contextMenu_publisHandler(e:ContextMenuEvent):void
+		protected function contextMenu_publishHandler(e:ContextMenuEvent):void
 		{
 			
 		}

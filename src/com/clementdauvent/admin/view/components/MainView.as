@@ -104,6 +104,20 @@ package com.clementdauvent.admin.view.components
 			}
 		}
 		
+		public function setAsFirstImage(img:Image):void
+		{
+			var i:int = 0, length:int = _elements.numChildren;
+			for (i; i < length; i++) {
+				if (_elements.getChildAt(i) is Image) {
+					if (_elements.getChildAt(i) === img) {
+						Image(_elements.getChildAt(i)).isFirst = true;
+					} else {
+						Image(_elements.getChildAt(i)).isFirst = false;
+					}
+				}
+			}
+		}
+		
 		public function returnImageUnderPoint(p:Point):Image
 		{
 			var i:int = _elements.numChildren - 1;
