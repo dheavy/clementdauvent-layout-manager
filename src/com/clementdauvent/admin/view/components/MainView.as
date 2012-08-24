@@ -1,10 +1,11 @@
 package com.clementdauvent.admin.view.components
 {	
 	import com.clementdauvent.admin.view.components.IResizable;
+	import com.clementdauvent.admin.view.components.IDraggable;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
-	import flash.display.DisplayObject;
+	import flash.display.Sprite;
 	import flash.display.PixelSnapping;
 	import flash.display.Sprite;
 	import flash.geom.Point;
@@ -67,6 +68,15 @@ package com.clementdauvent.admin.view.components
 		}
 		
 		/**
+		 * @public	elements
+		 * @return	The container for the elements.
+		 */
+		public function get elements():Sprite
+		{
+			return _elements;
+		}
+		
+		/**
 		 * @public	create
 		 * @param	data:BitmapData	The BitmapData captured from a loaded images, ready to be injected as a backdrop cover in this instance.
 		 * @return	void
@@ -79,53 +89,67 @@ package com.clementdauvent.admin.view.components
 		
 		/**
 		 * @public	addElement
-		 * @param	e:DisplayObject	An element (images, texts) to add in this container.
+		 * @param	e:Sprite	An element (images, texts) to add in this container.
 		 * @return	void
 		 */
-		public function addElement(e:DisplayObject):void
+		public function addElement(e:Sprite):void
 		{
 			_elements.addChild(e);
 		}
 		
 		/**
-		 * @public	setImageOnTop
-		 * @param	img:Image	An Image instance, children of the MainView container, to put on top of the stack.
+		 * @public	setElementOnTop
+		 * @param	elm:Sprite	A Sprite, children of the MainView container, to put on top of the stack.
 		 * @return	void
 		 * 
 		 * Push the selected Image on top of the visual image stack.
 		 */
-		public function setImageOnTop(img:Image):void
+		public function setElementOnTop(elm:Sprite):void
 		{
-			if (_elements.contains(img) && _elements.numChildren > 1 && img != _elements.getChildAt(_elements.numChildren - 1)) {
-				while (img != _elements.getChildAt(_elements.numChildren - 1)) {
-					_elements.swapChildrenAt(_elements.getChildIndex(img), _elements.getChildIndex(img) + 1);
+			if (_elements.contains(elm) && _elements.numChildren > 1 && elm != _elements.getChildAt(_elements.numChildren - 1)) {
+				while (elm != _elements.getChildAt(_elements.numChildren - 1)) {
+					_elements.swapChildrenAt(_elements.getChildIndex(elm), _elements.getChildIndex(elm) + 1);
 				}
-				img.flash();
+				if (elm is IDraggable) IDraggable(elm).flash();
 			}
 		}
 		
-		public function setAsFirstImage(img:Image):void
+		/**
+		 * @public	setAsFirstElement
+		 * @param	elm:IDraggable	An IDraggable instance children of this the MainView.
+		 * @return	void
+		 * 
+		 * Re-stacks the set of element to place the chosen one on top.
+		 */
+		public function setAsFirstElement(elm:IDraggable):void
 		{
 			var i:int = 0, length:int = _elements.numChildren;
 			for (i; i < length; i++) {
-				if (_elements.getChildAt(i) is Image) {
-					if (_elements.getChildAt(i) === img) {
-						Image(_elements.getChildAt(i)).isFirst = true;
+				if (_elements.getChildAt(i) is IDraggable) {
+					if (_elements.getChildAt(i) === elm) {
+						IDraggable(_elements.getChildAt(i)).isFirst = true;
 					} else {
-						Image(_elements.getChildAt(i)).isFirst = false;
+						IDraggable(_elements.getChildAt(i)).isFirst = false;
 					}
 				}
 			}
 		}
 		
-		public function returnImageUnderPoint(p:Point):Image
+		/**
+		 * @public	returnElementUnderPoint
+		 * @param	p:Point	A Point instance representing a position.
+		 * @return	IDraggable	An possible IDraggable element under the position set by the Point.
+		 *
+		 * Returns the element, if any, found at the position set by the Point passed as argument.
+		 */
+		public function returnElementUnderPoint(p:Point):IDraggable
 		{
 			var i:int = _elements.numChildren - 1;
 			
 			for (i; i > 0; i--) {
-				var img:Image = _elements.getChildAt(i) as Image;
-				if ((img.x < p.x && img.x + img.elementWidth > p.x) && (img.y < p.y && img.y + img.elementHeight > p.y)) {
-					return img;
+				var elm:IDraggable = _elements.getChildAt(i) as IDraggable;
+				if ((elm.x < p.x && elm.x + IResizable(elm).elementWidth > p.x) && (elm.y < p.y && elm.y + IResizable(elm).elementHeight > p.y)) {
+					return elm;
 				}
 			}
 			

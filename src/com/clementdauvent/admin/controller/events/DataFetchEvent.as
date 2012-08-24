@@ -9,16 +9,25 @@ package com.clementdauvent.admin.controller.events
 	 */
 	public class DataFetchEvent extends Event
 	{
-		/* @public BEGIN:String	Event type "setupBegin". */
+		/**
+		 * Event type "setupBegin". 
+		 */
 		public static const BEGIN:String = "setupBegin";
 		
-		/* @public	COMPLETE:String	Event type "setupComplete". */
+		/**
+		 * Event type "setupComplete".
+		 */
 		public static const COMPLETE:String = "setupComplete";
 		
+		/**
+		 * Event type "requireDataForImages"
+		 */
 		public static const REQUIRE_DATA_FOR_IMAGES:String = "requireDataForImages";
 				
-		/* @public vo:DataVO	A DataVO instance that instances of DataFetchEvent may carry around. */
-		public var vo					:DataVO;
+		/**
+		 * A DataVO instance that instances of DataFetchEvent may carry around. 
+		 */
+		public var vo:DataVO;
 		
 		/**
 		 * @public	DataFetchEvent

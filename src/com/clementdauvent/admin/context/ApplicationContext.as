@@ -7,12 +7,14 @@ package com.clementdauvent.admin.context
 	import com.clementdauvent.admin.controller.events.DataFetchEvent;
 	import com.clementdauvent.admin.model.ApplicationModel;
 	import com.clementdauvent.admin.model.MainViewBuilderModel;
+	import com.clementdauvent.admin.view.components.ContextMenuView;
 	import com.clementdauvent.admin.view.components.Image;
 	import com.clementdauvent.admin.view.components.MainView;
-	import com.clementdauvent.admin.view.components.ContextMenuView;
+	import com.clementdauvent.admin.view.components.TextElement;
 	import com.clementdauvent.admin.view.mediators.ImageMediator;
 	import com.clementdauvent.admin.view.mediators.MainViewMediator;
 	import com.clementdauvent.admin.view.mediators.StageMediator;
+	import com.clementdauvent.admin.view.mediators.TextElementMediator;
 	
 	import flash.display.DisplayObjectContainer;
 	
@@ -60,6 +62,7 @@ package com.clementdauvent.admin.context
 			mediatorMap.mapView(ClementDauventLayoutManager, StageMediator);
 			mediatorMap.mapView(MainView, MainViewMediator);
 			mediatorMap.mapView(Image, ImageMediator);
+			mediatorMap.mapView(TextElement, TextElementMediator);
 			
 			// Start app.
 			dispatchEvent(new DataFetchEvent(DataFetchEvent.BEGIN));

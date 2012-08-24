@@ -1,5 +1,6 @@
 package com.clementdauvent.admin.view.components
 {
+	import com.clementdauvent.admin.view.components.IDraggable;
 	import com.clementdauvent.admin.view.components.IResizable;
 	import com.greensock.TweenMax;
 	
@@ -19,7 +20,7 @@ package com.clementdauvent.admin.view.components
 	/**
 	 * <p>The Image view used to represent image content on the Surface</p>
 	 */
-	public class Image extends Sprite implements IResizable
+	public class Image extends Sprite implements IResizable, IDraggable
 	{
 		/**
 		 * Dimensions for the handle image.
@@ -81,6 +82,9 @@ package com.clementdauvent.admin.view.components
 		 */
 		protected var _progressBar:Shape;
 		
+		/**
+		 * @private	Whether or not this is the opening element on the website.
+		 */
 		protected var _isFirst:Boolean = false;
 		
 		/**
@@ -140,17 +144,32 @@ package com.clementdauvent.admin.view.components
 			return _img.scaleY;
 		}
 		
+		/**
+		 * @public	isFirst
+		 * @return	Whether or not this is the opening element on the website.
+		 */
 		public function get isFirst():Boolean
 		{
 			return _isFirst;
 		}
 		
+		/**
+		 * @public	isFirst
+		 * @param	value:Boolean	Boolean stating whether or not this is the opening element on the website.
+		 * @return	void
+		 *
+		 * Promotes the element as opening element on the website if value equals true.
+		 */
 		public function set isFirst(value:Boolean):void
 		{
 			_isFirst = value;
 			promote(value);
 		}
 		
+		/**
+		 * @public	toString
+		 * @return	A String representation of the instance.
+		 */
 		override public function toString():String
 		{
 			return "[Image — id: " + id + ", src: " + _src + ", elementWidth: " + elementWidth + ", elementHeight: " + elementHeight + ", scale: " + scale + "]";
@@ -246,15 +265,6 @@ package com.clementdauvent.admin.view.components
 			} else {
 				TweenMax.to(_img, .5, { colorTransform: { tint: 0x00CCFF, tintAmount: 0 } }); 
 			}
-		}
-		
-		/**
-		 * @private	scaleCompensation
-		 * @return	scaleCompensation:Number	The newly computed scale to assign to graphic elements that have been scaled down.
-		 */
-		protected function get scaleCompensation():Number 
-		{
-			return 1 / parent.scaleX;
 		}
 		
 		/**

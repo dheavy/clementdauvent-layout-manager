@@ -1,10 +1,11 @@
 package com.clementdauvent.admin.view.mediators
 {
-	import com.clementdauvent.admin.controller.events.ImageEvent;
+	import com.clementdauvent.admin.controller.events.ElementEvent;
 	import com.clementdauvent.admin.view.components.Image;
 	import com.clementdauvent.admin.view.components.MainView;
 	
 	import flash.display.Stage;
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
@@ -13,18 +14,18 @@ package com.clementdauvent.admin.view.mediators
 	import org.robotlegs.mvcs.Mediator;
 	
 	/**
-	 * <p>Mediator for Image instance.</p>
+	 * <p>Mediator for img instance.</p>
 	 */
 	public class ImageMediator extends Mediator
 	{
 		/**
-		 * The injected image instance this mediator mediates. 
+		 * The injected img instance this mediator mediates. 
 		 */		
 		[Inject]
-		public var image:Image;
+		public var img:Image;
 		
 		/**
-		 * An injected dependency of the singleton instance of the MainView, parent for instances of Image. 
+		 * An injected dependency of the singleton instance of the MainView, parent for instances of img. 
 		 */		
 		[Inject]
 		public var surface:MainView;
@@ -43,7 +44,7 @@ package com.clementdauvent.admin.view.mediators
 		override public function onRegister():void
 		{
 			_shiftKeyPressed = false;
-			image.addEventListener(Event.ADDED_TO_STAGE, initView);
+			img.addEventListener(Event.ADDED_TO_STAGE, initView);
 		}
 		
 		/**
@@ -55,59 +56,59 @@ package com.clementdauvent.admin.view.mediators
 		 */
 		protected function initView(e:Event):void
 		{
-			image.removeEventListener(Event.ADDED_TO_STAGE, initView);
+			img.removeEventListener(Event.ADDED_TO_STAGE, initView);
 
-			image.addEventListener(MouseEvent.MOUSE_DOWN, image_mouseDownHandler);
-			image.stage.addEventListener(KeyboardEvent.KEY_DOWN, stage_keyboardDownHandler);
+			img.addEventListener(MouseEvent.MOUSE_DOWN, img_mouseDownHandler);
+			img.stage.addEventListener(KeyboardEvent.KEY_DOWN, stage_keyboardDownHandler);
 			
 			eventDispatcher.addEventListener(MouseEvent.CLICK, eventBus_clickHandler);
 			eventDispatcher.addEventListener(MouseEvent.MOUSE_WHEEL, eventBus_mouseWheelHandler);
 		}
 		
 		/**
-		 * @private	image_mouseDownHandler
+		 * @private	img_mouseDownHandler
 		 * @param	e:MouseEvent	The MouseEvent passed during the process
 		 * @return	void
 		 * 
-		 * Event handler triggered when user's mouse button is down on the mediated image.
-		 * Enables dragging, or place image on top of the stack if alt-key is pressed.
+		 * Event handler triggered when user's mouse button is down on the mediated img.
+		 * Enables dragging, or place img on top of the stack if alt-key is pressed.
 		 */
-		protected function image_mouseDownHandler(e:MouseEvent):void
+		protected function img_mouseDownHandler(e:MouseEvent):void
 		{
 			e.stopImmediatePropagation();
 			
 			if (_shiftKeyPressed) {
-				trace("[INFO] Placing Image " + image.id + " on top of the stack");
-				eventDispatcher.dispatchEvent(new ImageEvent(image, ImageEvent.PLACE_ON_TOP));
+				trace("[INFO] Placing img " + img.id + " on top of the stack");
+				eventDispatcher.dispatchEvent(new ElementEvent(img, ElementEvent.PLACE_ON_TOP));
 				return;
 			}
 			
-			image.addEventListener(MouseEvent.MOUSE_UP, image_mouseUpHandler);
-			image.stage.addEventListener(MouseEvent.MOUSE_UP, image_mouseUpHandler);
-			image.addEventListener(Event.ENTER_FRAME, monitorMouseInBounds);
-			image.removeEventListener(MouseEvent.MOUSE_DOWN, image_mouseDownHandler);
+			img.addEventListener(MouseEvent.MOUSE_UP, img_mouseUpHandler);
+			img.stage.addEventListener(MouseEvent.MOUSE_UP, img_mouseUpHandler);
+			img.addEventListener(Event.ENTER_FRAME, monitorMouseInBounds);
+			img.removeEventListener(MouseEvent.MOUSE_DOWN, img_mouseDownHandler);
 			
-			image.startDrag(false, new Rectangle(0, 0, surface.elementWidth - image.elementWidth, surface.elementHeight - image.elementHeight));
+			img.startDrag(false, new Rectangle(0, 0, surface.elementWidth - img.elementWidth, surface.elementHeight - img.elementHeight));
 		}
 		
 		/**
-		 * @private	image_mouseUpHandler
+		 * @private	img_mouseUpHandler
 		 * @param	e:MouseEvent	The MouseEvent passed during the process
 		 * @return	void
 		 * 
-		 * Event handler triggered when user's mouse button is up/off the mediated image.
+		 * Event handler triggered when user's mouse button is up/off the mediated img.
 		 * Disables dragging.
 		 */
-		protected function image_mouseUpHandler(e:MouseEvent):void
+		protected function img_mouseUpHandler(e:MouseEvent):void
 		{
 			e.stopImmediatePropagation();
 			
-			image.addEventListener(MouseEvent.MOUSE_DOWN, image_mouseDownHandler);
-			image.removeEventListener(Event.ENTER_FRAME, monitorMouseInBounds);
-			image.removeEventListener(MouseEvent.MOUSE_UP, image_mouseUpHandler);
-			image.stage.removeEventListener(MouseEvent.MOUSE_UP, image_mouseUpHandler);
+			img.addEventListener(MouseEvent.MOUSE_DOWN, img_mouseDownHandler);
+			img.removeEventListener(Event.ENTER_FRAME, monitorMouseInBounds);
+			img.removeEventListener(MouseEvent.MOUSE_UP, img_mouseUpHandler);
+			img.stage.removeEventListener(MouseEvent.MOUSE_UP, img_mouseUpHandler);
 			
-			image.stopDrag();
+			img.stopDrag();
 		}
 		
 		/**
@@ -122,7 +123,7 @@ package com.clementdauvent.admin.view.mediators
 			var mouseX:Number = surface.mouseX;
 			var mouseY:Number = surface.mouseY;
 			if (mouseX < 0 || mouseX > surface.elementWidth || mouseY < 0 || mouseY > surface.elementHeight) {
-				image.stopDrag();
+				img.stopDrag();
 			}
 		}
 		
@@ -136,8 +137,8 @@ package com.clementdauvent.admin.view.mediators
 		 */
 		protected function stage_keyboardDownHandler(e:KeyboardEvent):void
 		{
-			image.stage.removeEventListener(KeyboardEvent.KEY_DOWN, stage_keyboardDownHandler);
-			image.stage.addEventListener(KeyboardEvent.KEY_UP, stage_keyboardUpHandler);
+			img.stage.removeEventListener(KeyboardEvent.KEY_DOWN, stage_keyboardDownHandler);
+			img.stage.addEventListener(KeyboardEvent.KEY_UP, stage_keyboardUpHandler);
 			
 			if (e.shiftKey) {
 				_shiftKeyPressed = true;
@@ -154,8 +155,8 @@ package com.clementdauvent.admin.view.mediators
 		 */
 		protected function stage_keyboardUpHandler(e:KeyboardEvent):void
 		{
-			image.stage.addEventListener(KeyboardEvent.KEY_DOWN, stage_keyboardDownHandler);
-			image.stage.removeEventListener(KeyboardEvent.KEY_UP, stage_keyboardUpHandler);
+			img.stage.addEventListener(KeyboardEvent.KEY_DOWN, stage_keyboardDownHandler);
+			img.stage.removeEventListener(KeyboardEvent.KEY_UP, stage_keyboardUpHandler);
 			
 			_shiftKeyPressed = false;
 		}
@@ -165,13 +166,13 @@ package com.clementdauvent.admin.view.mediators
 		 * @param	e:Event		The Event passed during the process.
 		 * @return	void
 		 * 
-		 * Event handler triggered when user clicks on the stage but NOT on the image.
+		 * Event handler triggered when user clicks on the stage but NOT on the img.
 		 * Stops dragging if it happens.
 		 */
 		protected function eventBus_clickHandler(e:MouseEvent):void
 		{
 			if (e.target is Stage) {
-				image.stopDrag();
+				img.stopDrag();
 			}
 		}
 		
@@ -185,7 +186,7 @@ package com.clementdauvent.admin.view.mediators
 		 */
 		protected function eventBus_mouseWheelHandler(e:MouseEvent):void
 		{
-			image.stopDrag();
+			img.stopDrag();
 		}
 	}
 }

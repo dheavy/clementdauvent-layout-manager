@@ -5,6 +5,7 @@ package com.clementdauvent.admin.controller.commands
 	import com.clementdauvent.admin.model.vo.TextVO;
 	import com.clementdauvent.admin.view.components.Image;
 	import com.clementdauvent.admin.view.components.MainView;
+	import com.clementdauvent.admin.view.components.TextElement;
 	
 	import org.robotlegs.mvcs.Command;
 	
@@ -13,17 +14,25 @@ package com.clementdauvent.admin.controller.commands
 	 */
 	public class ImagesAndTextsSetupCommand extends Command
 	{
-		/*	@public	OFFSET:Number	The offset between images, texts... when added on the display list. */
+		/**
+		 * The offset between images, texts... when added on the display list. 
+		 */
 		public static const OFFSET	:Number = 200;
 		
-		/* 	@public	ROWS:Number		The number of rows to allow when roughly laying out the elements added. */
+		/**
+		 * The number of rows to allow when roughly laying out the elements added. 
+		 */
 		public static const ROWS	:Number = 3;
 		
-		/*	@public	model:ApplicationModel	The injected singleton instance of the main application model, where the data is contained for building these elements. */
+		/**
+		 * The injected singleton instance of the main application model, where the data is contained for building these elements. 
+		 */
 		[Inject]
 		public var model:ApplicationModel;
 		
-		/*	@public	view:MainView			The injected singleton instance of the MainView, where the elements should appear. */
+		/**
+		 * The injected singleton instance of the MainView, where the elements should appear. 
+		 */
 		[Inject]
 		public var view:MainView;
 		
@@ -42,8 +51,8 @@ package com.clementdauvent.admin.controller.commands
 			var length:int = images.length;
 			
 			for (i; i < length; i++) {
-				var vo:ImageVO = images[i];
-				var img:Image = new Image(i, vo.src, vo.originalWidth, vo.originalHeight);
+				var iVo:ImageVO = images[i];
+				var img:Image = new Image(i, iVo.src, iVo.originalWidth, iVo.originalHeight);
 				
 				if (j > ImagesAndTextsSetupCommand.ROWS) j = 0;
 				img.x = j * ImagesAndTextsSetupCommand.OFFSET;
@@ -51,6 +60,20 @@ package com.clementdauvent.admin.controller.commands
 				j++;
 				
 				view.addElement(img);
+			}
+			
+			var k:int = 0, l:int = 0;
+			length = texts.length;
+			for (k; k < length; k++) {
+				var tVo:TextVO = texts[k];
+				var t:TextElement = new TextElement(i, tVo.title, tVo.content);
+				
+				if (l > ImagesAndTextsSetupCommand.ROWS) l = 0;
+				t.x = ImagesAndTextsSetupCommand.OFFSET * ImagesAndTextsSetupCommand.ROWS * ImagesAndTextsSetupCommand.ROWS + l * ImagesAndTextsSetupCommand.OFFSET;
+				t.y = ImagesAndTextsSetupCommand.OFFSET + k * ImagesAndTextsSetupCommand.OFFSET;
+				l++;
+				
+				view.addElement(t);
 			}
 		}
 	}

@@ -1,13 +1,16 @@
 package com.clementdauvent.admin.view.mediators
 {
-	import com.clementdauvent.admin.controller.events.ImageEvent;
+	import com.clementdauvent.admin.controller.events.ElementEvent;
 	import com.clementdauvent.admin.view.components.ContextMenuView;
+	import com.clementdauvent.admin.view.components.IDraggable;
+	import com.clementdauvent.admin.view.components.IResizable;
 	import com.clementdauvent.admin.view.components.Image;
 	import com.clementdauvent.admin.view.components.MainView;
 	import com.greensock.TweenMax;
 	import com.greensock.plugins.TransformAroundPointPlugin;
 	import com.greensock.plugins.TweenPlugin;
 	
+	import flash.display.Sprite;
 	import flash.events.ContextMenuEvent;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -103,10 +106,13 @@ package com.clementdauvent.admin.view.mediators
 		{
 			var ratio:Number = view.stage.stageHeight / view.height;
 			view.scaleX = view.scaleY = ratio;
+			view.x = (view.stage.stageWidth - view.width) / 2;
+			view.y = (view.stage.stageHeight - view.height) / 2;
 		}
 		
 		/**
 		 * @private	initView
+		 * @param	e:MouseEvent	The Event object passed during the process.
 		 * @return	void
 		 * 
 		 * Invoked when the mediated view is added to the display list: starts configuring it.
@@ -120,7 +126,7 @@ package com.clementdauvent.admin.view.mediators
 			view.addEventListener(MouseEvent.MOUSE_OUT, view_mouseReleaseHandler);
 			
 			eventDispatcher.addEventListener(MouseEvent.MOUSE_WHEEL, eventBus_mouseWheelHandler);
-			eventDispatcher.addEventListener(ImageEvent.PLACE_ON_TOP, eventBus_imagePlaceOnTopHandler);
+			eventDispatcher.addEventListener(ElementEvent.PLACE_ON_TOP, eventBus_imagePlaceOnTopHandler);
 			
 			view.contextMenu.addEventListener(ContextMenuEvent.MENU_SELECT, monitorRightClick);
 			
@@ -134,6 +140,7 @@ package com.clementdauvent.admin.view.mediators
 		
 		/**
 		 * @private	monitorDrag
+		 * @param	e:MouseEvent	The Event object passed during the process.
 		 * @return	void
 		 * 
 		 * Monitors and applies behaviour on the view when it is dragged or released with inertia.
@@ -157,20 +164,29 @@ package com.clementdauvent.admin.view.mediators
 			}
 		}
 		
+		/**
+		 * @private	monitorRightClick
+		 * @param	e:MouseEvent	The ContextMenuEvent passed during the process.
+		 * @return	void
+		 * 
+		 * Event handler triggered on right-click before context menu shows up.
+		 * Check if there's an image under the mouse cursor and enables or disables context menu options accordingly.
+		 */
 		protected function monitorRightClick(e:ContextMenuEvent):void
 		{
 			var mousePos:Point = new Point(view.mouseX, view.mouseY);
-			var img:Image = view.returnImageUnderPoint(mousePos);
+			var elm:IDraggable = view.returnElementUnderPoint(mousePos);
 			
-			if (img && !img.isFirst) {
-				contextMenu.canPromoteAsFirstImage = true;
+			if (elm && !elm.isFirst) {
+				contextMenu.canPromoteAsFirstElement = true;
 			} else {
-				contextMenu.canPromoteAsFirstImage = false;
+				contextMenu.canPromoteAsFirstElement = false;
 			}
 		}
 		
 		/**
 		 * @private	view_mouseDownHandler
+		 * @param	e:MouseEvent	The MouseEvent passed during the process.
 		 * @return	void
 		 * 
 		 * Event handler triggered when user holds down mouse button on the view.
@@ -185,6 +201,7 @@ package com.clementdauvent.admin.view.mediators
 		
 		/**
 		 * @private	view_mouseReleaseHandler
+		 * @param	e:MouseEvent	The MouseEvent passed during the process.
 		 * @return	void
 		 * 
 		 * Event handler triggered when user releases the mouse button.
@@ -197,6 +214,7 @@ package com.clementdauvent.admin.view.mediators
 		
 		/**
 		 * @private	eventBus_mouseWheelHandler
+		 * @param	e:MouseEvent	The MouseEvent passed during the process.
 		 * @return	void
 		 * 
 		 * Event handler triggered when user scrolls mouse wheel.
@@ -224,21 +242,44 @@ package com.clementdauvent.admin.view.mediators
 			});
 		}
 		
-		protected function eventBus_imagePlaceOnTopHandler(e:ImageEvent):void
+		/**
+		 * @private	eventBus_imagePlaceOnTopHandler
+		 * @param	e:MouseEvent	The ImageEvent passed during the process.
+		 * @return	void
+		 * 
+		 * Event handler triggered when user SHIFT + clicks an image.
+		 * Place it on top of the stack.
+		 */
+		protected function eventBus_imagePlaceOnTopHandler(e:ElementEvent):void
 		{
-			view.setImageOnTop(e.img);
+			view.setElementOnTop((e.elm as Sprite));
 		}
 		
+		/**
+		 * @private	contextMenu_promoteFirstHandler
+		 * @param	e:ContextMenuEvent	The ContextMenuEvent passed during the process.
+		 * @return	void
+		 * 
+		 * Event handler triggered from the "Promote..." option in the context menu.
+		 * Promote the underneath image as "first image".
+		 */
 		protected function contextMenu_promoteFirstHandler(e:ContextMenuEvent):void
 		{
-			var img:Image = view.returnImageUnderPoint(new Point(view.mouseX, view.mouseY)) as Image;
-			view.setAsFirstImage(img);
-			trace("[INFO] Promoted " + img.toString() + " as First Image");
+			var elm:IDraggable = view.returnElementUnderPoint(new Point(view.mouseX, view.mouseY));
+			view.setAsFirstElement(elm);
+			trace("[INFO] Promoted " + elm.toString() + " as First Image");
 		}
 		
+		/**
+		 * @private	contextMenu_publishHandler
+		 * @param	e:ContextMenuEvent	The ContextMenuEvent passed during the process.
+		 * @return	void
+		 * 
+		 * Event handler triggered from the "Publish..." option in the context menu.
+		 */
 		protected function contextMenu_publishHandler(e:ContextMenuEvent):void
 		{
-			
+			// TODO: Handle publication.
 		}
 				
 	}
