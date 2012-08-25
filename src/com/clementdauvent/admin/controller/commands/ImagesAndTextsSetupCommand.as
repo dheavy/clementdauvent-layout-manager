@@ -17,12 +17,12 @@ package com.clementdauvent.admin.controller.commands
 		/**
 		 * The offset between images, texts... when added on the display list. 
 		 */
-		public static const OFFSET	:Number = 200;
+		public static const OFFSET:Number = 200;
 		
 		/**
 		 * The number of rows to allow when roughly laying out the elements added. 
 		 */
-		public static const ROWS	:Number = 3;
+		public static const ROWS:Number = 3;
 		
 		/**
 		 * The injected singleton instance of the main application model, where the data is contained for building these elements. 

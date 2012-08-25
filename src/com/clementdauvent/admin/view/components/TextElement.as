@@ -12,21 +12,70 @@ package com.clementdauvent.admin.view.components
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
 	
+	/**
+	 * <p>Draggable element on MainView containing text content</p>
+	 */
 	public class TextElement extends Sprite implements IResizable, IDraggable
 	{
+		/**
+		 * Default width of TextElement.
+		 */
 		public static const WIDTH:Number = 800;
 		
+		/**
+		 * Default height of TextElement.
+		 */
 		public static const HEIGHT:Number = 600;
 		
+		/**
+		 * @private	UID of this instance.
+		 */
 		protected var _id:uint;
+		
+		/**
+		 * @private	Text for the title of this element.
+		 */
 		protected var _title:String;
+		
+		/**
+		 * @private	Text for the content of this element.
+		 */
 		protected var _content:String;
+		
+		/**
+		 * @private	Whether or not this element should be the opening element on the website.
+		 */
 		protected var _isFirst:Boolean;
+		
+		/**
+		 * @private	The background shape of this instance.
+		 */
 		protected var _background:Shape;
+		
+		/**
+		 * @private	The container for textfields in this instance.
+		 */
 		protected var _fieldsContainer:Sprite;
+		
+		/**
+		 * @private	The textfield for the title.
+		 */
 		protected var _titleField:TextField;
+		
+		/**
+		 * @private	The textfield for the content.
+		 */
 		protected var _contentField:TextField;
 		
+		/**
+		 * @public	TextElement
+		 * @param	id:uint	The UID for this instance.
+		 * @param	title:String	The title of this element.
+		 * @param	content:String	The text content of this element.
+		 * @return	this	
+		 * 
+		 * Creates an instance of TextElement, draggable element in MainView containing text.
+		 */
 		public function TextElement(id:uint, title:String, content:String)
 		{
 			_id = id;
@@ -36,37 +85,69 @@ package com.clementdauvent.admin.view.components
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 		
+		/**
+		 * @public	id
+		 * @return	The UID of this instance.
+		 */
 		public function get id():uint
 		{
 			return _id;
 		}
 		
+		/**
+		 * @public	isFirst
+		 * @return	Whether or not this instance should be the opening element on the website.
+		 */
 		public function get isFirst():Boolean
 		{
 			return false;
 		}
 		
+		/**
+		 * @public	isFirst
+		 * @return	void
+		 * 
+		 * Sets the "isFirst" boolean flag.
+		 */
 		public function set isFirst(value:Boolean):void
 		{
 			_isFirst = value;
 			promote(value);
 		}
 		
+		/**
+		 * @public	elementWidth
+		 * @return	The width of this element.
+		 */
 		public function get elementWidth():Number
 		{
 			return TextElement.WIDTH;
 		}
 		
+		/**
+		 * @public	elementHeight
+		 * @return	The height of this element.
+		 */
 		public function get elementHeight():Number
 		{
 			return TextElement.HEIGHT;
 		}
 		
+		/**
+		 * @public	scale
+		 * @return	The scale of the element.
+		 */
 		public function get scale():Number
 		{
 			return 1;
 		}
 		
+		/**
+		 * @public	flash
+		 * @return	void
+		 * 
+		 * Flashes a quick glow around the TextElement. Used when element is re-stacked on top.
+		 */
 		public function flash():void
 		{
 			TweenMax.to(_background, .2, { glowFilter: { color: 0xFFFFFF, alpha: 1, blurX: 20, blurY: 20 }, onComplete: 
@@ -76,11 +157,47 @@ package com.clementdauvent.admin.view.components
 			} );
 		}
 		
+		/**
+		 * @public	serialize
+		 * @return	A TextVO instance, serialized version of the TextElement.
+		 */
 		public function serialize():TextVO
 		{
 			return new TextVO(_title, _content, isFirst, x, y);
 		}
 		
+		/**
+		 * @public	promote
+		 * @param	value:Boolean	True is element is promoted, false otherwise.
+		 * @return	void
+		 * 
+		 * Show visually if element is promoted as opening element of the website, or not.
+		 */
+		public function promote(value:Boolean):void
+		{
+			if (value) {
+				TweenMax.to(_background, 1, { colorTransform: { tint: 0x00CCFF, tintAmount: .5 } }); 
+			} else {
+				TweenMax.to(_background, .5, { colorTransform: { tint: 0x00CCFF, tintAmount: 0 } }); 
+			}
+		}
+		
+		/**
+		 * @public	toString
+		 * @return	A string representation of this instance.
+		 */
+		override public function toString():String
+		{
+			return "[TextElement — id: " + id + ", title: " + _title + ", content: " + _content + ", isFirst: " + isFirst + ", x: " + x + ", y: " + y + "]";
+		}
+		
+		/**
+		 * @private	init
+		 * @param	e:Event	The Event object passed during the process.
+		 * @return	void
+		 * 
+		 * Builds the instance visually.
+		 */
 		protected function init(e:Event):void
 		{
 			_background = new Shape();
@@ -120,16 +237,6 @@ package com.clementdauvent.admin.view.components
 			_fieldsContainer.x = (_background.width - _fieldsContainer.width) / 2;
 			_fieldsContainer.y = (_background.height - _fieldsContainer.height) / 2;
 			_fieldsContainer.mouseEnabled = false;
-		}
-		
-		protected function promote(value:Boolean):void
-		{
-			if (value) {
-				TweenMax.to(_background, 1, { colorTransform: { tint: 0x00CCFF, tintAmount: .5 } }); 
-			} else {
-				TweenMax.to(_background, .5, { colorTransform: { tint: 0x00CCFF, tintAmount: 0 } }); 
-			}
-		}
-		
+		}		
 	}
 }

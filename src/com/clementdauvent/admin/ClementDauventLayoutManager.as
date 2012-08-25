@@ -10,11 +10,7 @@ package com.clementdauvent.admin
 	import flash.events.TimerEvent;
 	
 	/**
-	 * ClementDauventLayoutManager
-	 * Main class for the Image Layout Manager for ClementDauvent.com admin panel.
-	 * 
-	 * @author	Davy Peter Braun
-	 * @date	2012-08-16
+	 * <p>Main class for the Image Layout Manager for ClementDauvent.com admin panel.</p>
 	 */
 	
 	[SWF(width="1024", height="768", backgroundColor="#E8E8E8", frameRate="30")]

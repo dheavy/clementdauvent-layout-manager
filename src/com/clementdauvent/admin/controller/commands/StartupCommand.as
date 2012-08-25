@@ -9,8 +9,10 @@ package com.clementdauvent.admin.controller.commands
 	 */
 	public class StartupCommand extends Command
 	{
+		/**
+		 * An injected singleton instance of the main model class. 
+		 */
 		[Inject]
-		/* @public	model:ApplicationModel	An injected singleton instance of the main model class. */
 		public var model:ApplicationModel;
 		
 		/**

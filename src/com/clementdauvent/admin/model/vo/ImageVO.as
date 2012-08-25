@@ -1,11 +1,7 @@
 package com.clementdauvent.admin.model.vo
 {
 	/**
-	 * ImageVO
-	 * Value Object for elements constitutive of an image.
-	 * 
-	 * @author	Davy Peter Braun
-	 * @date	2012-08-16
+	 * <p>Value Object for elements constitutive of an image.</p>
 	 */
 	public class ImageVO
 	{
@@ -17,37 +13,37 @@ package com.clementdauvent.admin.model.vo
 		/**
 		 * @private	Original width of the image.
 		 */
-		protected var _originalWidth	:Number;
+		protected var _originalWidth:Number;
 		
 		/**
 		 * @private	Original height of the image.
 		 */
-		protected var _originalHeight	:Number;
+		protected var _originalHeight:Number;
 		
 		/**
 		 * @private	Whether image is used as "first image" to appear on website.
 		 */
-		protected var _isFirst			:Boolean;
+		protected var _isFirst:Boolean;
 		
 		/**
 		 * @private	Horizontal offset of the image, relative to the previous one in the list.
 		 */
-		protected var _xOffset			:Number;
+		protected var _xOffset:Number;
 		
 		/**
 		 * @private	Vertical offset of the image, relative to the previous one in the list.
 		 */
-		protected var _yOffset			:Number;
+		protected var _yOffset:Number;
 		
 		/**
 		 * @private	The scale of the image, relative to the "first image".
 		 */
-		protected var _scale			:Number;
+		protected var _scale:Number;
 		
 		/**
 		 * @private	The information text for this image.
 		 */
-		protected var _description		:String;
+		protected var _description:String;
 		
 		/**
 		 * Creates an instance of ImageVO, a value Object holding elements constitutive of Images object.
@@ -211,7 +207,7 @@ package com.clementdauvent.admin.model.vo
 		 */
 		public function set scale(value:Number):void
 		{
-			
+			_scale = value;
 		}
 		
 		/**

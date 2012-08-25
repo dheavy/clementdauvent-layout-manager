@@ -14,7 +14,9 @@ package com.clementdauvent.admin.controller.commands
 	 */
 	public class MainViewBuildCommand extends Command
 	{
-		/*	@public	model:MainViewBuilderModel	Injected instance of the model. */
+		/**
+		 * Injected instance of the model. 
+		 */
 		[Inject]
 		public var model:MainViewBuilderModel;
 		

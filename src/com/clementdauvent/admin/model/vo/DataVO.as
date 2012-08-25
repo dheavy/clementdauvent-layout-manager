@@ -6,11 +6,15 @@ package com.clementdauvent.admin.model.vo
 	 */
 	public class DataVO
 	{
-		/* @private	_images:Vector.<ImageVO>	The vector list of ImageVO instances fetched. */
-		protected var _images	:Vector.<ImageVO>;
+		/**
+		 * The vector list of ImageVO instances fetched. 
+		 */
+		protected var _images:Vector.<ImageVO>;
 		
-		/* @private	_texts:Vector.<TextVO>	The vector list of TextVO instances fetched. */
-		protected var _texts	:Vector.<TextVO>;
+		/**
+		 * The vector list of TextVO instances fetched. 
+		 */
+		protected var _texts:Vector.<TextVO>;
 		
 		/**
 		 * @public 	DataVO

@@ -9,13 +9,12 @@ package com.clementdauvent.admin.view.mediators
 	
 	/**
 	 * <p>The Mediator for the main Stage instance grabbed from the Main class of the app.</p>
-	 * 
-	 * @author	Davy Peter Braun
-	 * @date	2012-08-19
 	 */
 	public class StageMediator extends Mediator
 	{
-		/*	@public	application:ClementDauventLayoutManager	Dependency injection of the app's main class. */
+		/**
+		 * Dependency injection of the app's main class. 
+		 */
 		[Inject]
 		public var application:ClementDauventLayoutManager;
 		

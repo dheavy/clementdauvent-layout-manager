@@ -7,7 +7,9 @@ package com.clementdauvent.admin.model.vo
 	 */
 	public class BitmapDataVO
 	{
-		/*	@private	_data:BitmapData	The bitmapdata carried by this instance. */
+		/**
+		 * The bitmapdata carried by this instance. 
+		 */
 		protected var _data:BitmapData;
 		
 		/**

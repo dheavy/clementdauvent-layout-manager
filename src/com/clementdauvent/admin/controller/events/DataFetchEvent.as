@@ -24,10 +24,19 @@ package com.clementdauvent.admin.controller.events
 		 */
 		public static const REQUIRE_DATA_FOR_IMAGES:String = "requireDataForImages";
 		
+		/**
+		 * Event type "pushDataForPublishing"
+		 */
 		public static const PUSH_DATA_FOR_PUBLISHING:String = "pushDataForPublishing";
 		
+		/**
+		 * Event type "dataSaveSuccess"
+		 */
 		public static const DATA_SAVE_SUCCESS:String = "dataSaveSuccess";
 		
+		/**
+		 * Event type "dataSaveError"
+		 */
 		public static const DATA_SAVE_ERROR:String = "dataSaveError";
 				
 		/**

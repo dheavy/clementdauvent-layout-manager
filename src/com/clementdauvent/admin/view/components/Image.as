@@ -88,6 +88,9 @@ package com.clementdauvent.admin.view.components
 		 */
 		protected var _isFirst:Boolean = false;
 		
+		/**
+		 * @private	The description of this image.
+		 */
 		protected var _desc:String;
 		
 		/**
@@ -180,6 +183,10 @@ package com.clementdauvent.admin.view.components
 			return "[Image — id: " + id + ", src: " + _src + ", elementWidth: " + elementWidth + ", elementHeight: " + elementHeight + ", scale: " + scale + "]";
 		}
 		
+		/**
+		 * @public	serialize
+		 * @return	An ImageVO instance, serialized version of this Image instance.
+		 */
 		public function serialize():ImageVO
 		{
 			return new ImageVO(_src, elementWidth, elementHeight, isFirst, x, y, scale, _desc);
@@ -259,6 +266,12 @@ package com.clementdauvent.admin.view.components
 			}
 		}
 		
+		/**
+		 * @public	flash
+		 * @return	void
+		 * 
+		 * Flashes a quick glow around the Image. Used when element is re-stacked on top.
+		 */
 		public function flash():void
 		{
 			TweenMax.to(_img, .2, { glowFilter: { color: 0xFFFFFF, alpha: 1, blurX: 20, blurY: 20 }, onComplete: 
@@ -268,6 +281,13 @@ package com.clementdauvent.admin.view.components
 			} );
 		}
 		
+		/**
+		 * @public	promote
+		 * @param	value:Boolean	True is element is promoted, false otherwise.
+		 * @return	void
+		 * 
+		 * Show visually if element is promoted as opening element of the website, or not.
+		 */
 		public function promote(value:Boolean):void
 		{
 			if (value) {

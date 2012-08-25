@@ -23,9 +23,6 @@ package com.clementdauvent.admin.context
 	
 	/**
 	 * <p>The application context based on requirements from the RobotLegs apparatus.</p>
-	 * 
-	 * @author	Davy Peter Braun
-	 * @date	2012-08-16
 	 */
 	public class ApplicationContext extends Context
 	{
