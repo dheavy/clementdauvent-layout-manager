@@ -1,6 +1,7 @@
 package com.clementdauvent.admin.controller.commands
 {
 	import com.clementdauvent.admin.controller.events.DataFetchEvent;
+	import com.clementdauvent.admin.ClementDauventLayoutManager;
 	import com.clementdauvent.admin.model.MainViewBuilderModel;
 	import com.clementdauvent.admin.view.components.ContextMenuView;
 	import com.clementdauvent.admin.view.components.MainView;
@@ -20,6 +21,9 @@ package com.clementdauvent.admin.controller.commands
 		[Inject]
 		public var model:MainViewBuilderModel;
 		
+		[Inject]
+		public var mainView:ClementDauventLayoutManager;
+		
 		/**
 		 * @public	execute
 		 * @return	void
@@ -28,8 +32,9 @@ package com.clementdauvent.admin.controller.commands
 		 */
 		override public function execute():void
 		{
+			var dummySrc:String = mainView.loaderInfo.parameters.dummySrc || 'img/DummyBitmapData.png';
 			eventDispatcher.addEventListener(MainViewBuilderModel.READY, readyHandler);
-			model.buildDataForMainView();
+			model.buildDataForMainView(dummySrc);
 		}
 		
 		/**

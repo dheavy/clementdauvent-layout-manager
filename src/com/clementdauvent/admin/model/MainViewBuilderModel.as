@@ -22,11 +22,6 @@ package com.clementdauvent.admin.model
 	public class MainViewBuilderModel extends Actor
 	{
 		/**
-		 * URL of the image resource used to generate the bitmap data.
-		 */
-		public static const VIEW_BMP_DATA_BUILDER_SRC:String = "img/DummyBitmapData.png";
-		
-		/**
 		 * Event constant used to alert of the availability of the data.
 		 */
 		public static const READY:String = "mainViewReady";
@@ -66,17 +61,18 @@ package com.clementdauvent.admin.model
 		
 		/**
 		 * @public	buildDataForMainView
+		 * @param	dummySrc:String	URL of the image resource used to generate the bitmap data.
 		 * @return	void
 		 * 
 		 * Initialized the bitmap data loading and acquisition process.
 		 * Must be invoked AFTER this instance has had a listener registering for its custom READY event.
 		 */
-		public function buildDataForMainView():void
+		public function buildDataForMainView(dummySrc:String):void
 		{
 			_fileLoader = new Loader();
 			_fileLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, fileLoader_completeHandler);
 			_fileLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, fileLoader_ioErrorHandler);
-			_fileLoader.load(new URLRequest(MainViewBuilderModel.VIEW_BMP_DATA_BUILDER_SRC));
+			_fileLoader.load(new URLRequest(dummySrc));
 		}
 		
 		/**

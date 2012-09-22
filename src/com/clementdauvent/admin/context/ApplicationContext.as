@@ -57,6 +57,8 @@ package com.clementdauvent.admin.context
 			injector.mapSingleton(ApplicationModel);
 			injector.mapSingleton(MainViewBuilderModel);
 			
+			injector.mapValue(ClementDauventLayoutManager, this.contextView);
+			
 			// Defines View tier.
 			mediatorMap.mapView(ClementDauventLayoutManager, StageMediator);
 			mediatorMap.mapView(MainView, MainViewMediator);

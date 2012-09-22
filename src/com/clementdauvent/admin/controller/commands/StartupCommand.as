@@ -1,8 +1,10 @@
 package com.clementdauvent.admin.controller.commands
 {
-	import org.robotlegs.mvcs.Command;
-	
+	import com.clementdauvent.admin.ClementDauventLayoutManager;
+	import com.clementdauvent.admin.context.ApplicationContext;
 	import com.clementdauvent.admin.model.ApplicationModel;
+	
+	import org.robotlegs.mvcs.Command;
 	
 	/**
 	 * <p>Command invoked on startup, invoking the beginning of the fetching/populating of data in the model.</p>
@@ -15,6 +17,9 @@ package com.clementdauvent.admin.controller.commands
 		[Inject]
 		public var model:ApplicationModel;
 		
+		[Inject]
+		public var mainView:ClementDauventLayoutManager;
+		
 		/**
 		 * @public	execute
 		 * @return	void
@@ -23,7 +28,8 @@ package com.clementdauvent.admin.controller.commands
 		 */
 		override public function execute():void
 		{
-			model.loadJSON();
+			var dataSrc:String = mainView.loaderInfo.parameters.data || 'data/data.json';
+			model.loadJSON(dataSrc);
 		}
 	}
 }

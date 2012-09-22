@@ -21,11 +21,6 @@ package com.clementdauvent.admin.model
 	public class ApplicationModel extends Actor
 	{
 		/**
-		 * URL of the JSON data file.
-		 */
-		public static const JSON_FILE:String = "data/data.json";
-		
-		/**
 		 * @private	URLLoader to fetch JSON file.
 		 */
 		protected var _jsonLoader:URLLoader;
@@ -48,16 +43,17 @@ package com.clementdauvent.admin.model
 		
 		/**
 		 * @public	loadJSON
+		 * @param	dataSrc:String
 		 * @return	void
 		 * 
 		 * Loads the JSON formatted data from given URL, effectively kickstarting the application.
 		 */
-		public function loadJSON():void 
+		public function loadJSON(dataSrc:String):void 
 		{
 			_jsonLoader = new URLLoader();
 			_jsonLoader.addEventListener(Event.COMPLETE, jsonLoader_completeHandler);
 			_jsonLoader.addEventListener(IOErrorEvent.IO_ERROR, jsonLoader_ioErrorHandler);
-			_jsonLoader.load(new URLRequest(ApplicationModel.JSON_FILE));
+			_jsonLoader.load(new URLRequest(dataSrc));
 		}
 		
 		/**
@@ -96,7 +92,7 @@ package com.clementdauvent.admin.model
 			
 			// Parse JSON and populate vector lists of images and texts from its data.
 			var json:Object = JSON.parse(e.target.data);
-			var imagesArr:Array = json.images;
+			var imagesArr:Array = json.photos;
 			var textsArr:Array = json.texts;
 			var images:Vector.<ImageVO> = new Vector.<ImageVO>();
 			var texts:Vector.<TextVO> = new Vector.<TextVO>();
