@@ -2,6 +2,7 @@ package com.clementdauvent.admin.model
 {
 	import com.clementdauvent.admin.controller.events.DataFetchEvent;
 	import com.clementdauvent.admin.model.vo.DataVO;
+	import com.clementdauvent.admin.utils.Logger;
 	
 	import com.sociodox.utils.Base64;
 	
@@ -37,10 +38,10 @@ package com.clementdauvent.admin.model
 		public function save(vo:DataVO):void
 		{
 			if (!ExternalInterface.available) {
-				trace("[ERROR] ExternalInterface unavailable. Can't save data.");
+				Logger.print("[ERROR] ExternalInterface unavailable. Can't save data.");
 				
 			} else {
-				ExternalInterface.call("console.log", "[INFO] DataPublisherModel call via ExternalInterface");
+				Logger.print("[INFO] DataPublisherModel call via ExternalInterface");
 				ExternalInterface.call("saveData", serializeToString(vo));
 			}
 		}

@@ -3,6 +3,7 @@ package com.clementdauvent.admin.view.mediators
 	import com.clementdauvent.admin.controller.events.ElementEvent;
 	import com.clementdauvent.admin.view.components.Image;
 	import com.clementdauvent.admin.view.components.MainView;
+	import com.clementdauvent.admin.utils.Logger;
 	
 	import flash.display.Stage;
 	import flash.display.Sprite;
@@ -78,7 +79,7 @@ package com.clementdauvent.admin.view.mediators
 			e.stopImmediatePropagation();
 			
 			if (_shiftKeyPressed) {
-				trace("[INFO] Placing img " + img.id + " on top of the stack");
+				Logger.print("[INFO] Placing img " + img.id + " on top of the stack");
 				eventDispatcher.dispatchEvent(new ElementEvent(img, ElementEvent.PLACE_ON_TOP));
 				return;
 			}

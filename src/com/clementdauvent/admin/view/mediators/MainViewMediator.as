@@ -11,6 +11,7 @@ package com.clementdauvent.admin.view.mediators
 	import com.clementdauvent.admin.view.components.Image;
 	import com.clementdauvent.admin.view.components.MainView;
 	import com.clementdauvent.admin.view.components.TextElement;
+	import com.clementdauvent.admin.utils.Logger;
 	import com.greensock.TweenMax;
 	import com.greensock.plugins.TransformAroundPointPlugin;
 	import com.greensock.plugins.TweenPlugin;
@@ -138,7 +139,7 @@ package com.clementdauvent.admin.view.mediators
 			contextMenu.promoteFirstBtn.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, contextMenu_promoteFirstHandler);
 			contextMenu.publishBtn.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, contextMenu_publishHandler);
 			
-			trace("[INFO] MainViewMediator finished configuring the MainView instance");
+			Logger.print("[INFO] MainViewMediator finished configuring the MainView instance");
 			
 			viewAll();
 		}
@@ -278,7 +279,7 @@ package com.clementdauvent.admin.view.mediators
 		{
 			var elm:IDraggable = view.returnElementUnderPoint(new Point(view.mouseX, view.mouseY));
 			view.setAsFirstElement(elm);
-			trace("[INFO] Promoted " + elm.toString() + " as First Image");
+			Logger.print("[INFO] Promoted " + elm.toString() + " as First Image");
 		}
 		
 		/**

@@ -16,6 +16,7 @@ package com.clementdauvent.admin.context
 	import com.clementdauvent.admin.view.mediators.MainViewMediator;
 	import com.clementdauvent.admin.view.mediators.StageMediator;
 	import com.clementdauvent.admin.view.mediators.TextElementMediator;
+	import com.clementdauvent.admin.utils.Logger;
 	
 	import flash.display.DisplayObjectContainer;
 	
@@ -68,7 +69,7 @@ package com.clementdauvent.admin.context
 			// Start app.
 			dispatchEvent(new DataFetchEvent(DataFetchEvent.BEGIN));
 			
-			trace("[INFO] ApplicationContext started");
+			Logger.print("[INFO] ApplicationContext started");
 		}
 	}
 }

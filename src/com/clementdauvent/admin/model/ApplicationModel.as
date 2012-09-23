@@ -1,6 +1,7 @@
 package com.clementdauvent.admin.model
 {
 	import com.clementdauvent.admin.controller.events.DataFetchEvent;
+	import com.clementdauvent.admin.utils.Logger;
 	import com.clementdauvent.admin.model.vo.DataVO;
 	import com.clementdauvent.admin.model.vo.ImageVO;
 	import com.clementdauvent.admin.model.vo.TextVO;
@@ -112,7 +113,7 @@ package com.clementdauvent.admin.model
 			// Store the data in the Model.
 			_data = new DataVO(images, texts);
 			
-			trace("[INFO] ApplicationModel has stored data from JSON");
+			Logger.print("[INFO] ApplicationModel has stored data from JSON");
 			
 			// Tell the app we're done and we can continue, by broadcasting a
 			// DataFetchEvent.COMPLETE with a payload of data.
@@ -128,7 +129,7 @@ package com.clementdauvent.admin.model
 		 */
 		protected function jsonLoader_ioErrorHandler(e:IOErrorEvent):void
 		{
-			trace("[ERROR] ApplicationModel — " + e.text);
+			Logger.print("[ERROR] ApplicationModel — " + e.text);
 			removeLoaderListeners();
 		}
 	}

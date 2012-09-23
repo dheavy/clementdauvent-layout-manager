@@ -1,6 +1,7 @@
 package com.clementdauvent.admin.view.components
 {
 	import com.clementdauvent.admin.model.vo.ImageVO;
+	import com.clementdauvent.admin.utils.Logger;
 	import com.clementdauvent.admin.view.components.IDraggable;
 	import com.clementdauvent.admin.view.components.IResizable;
 	import com.greensock.TweenMax;
@@ -27,12 +28,7 @@ package com.clementdauvent.admin.view.components
 		 * Dimensions for the handle image.
 		 */
 		public static const HANDLE_DIMENSIONS:Number = 250;
-		
-		/**
-		 * URL of the image resource for the resize handle.
-		 */
-		public static const HANDLE_GFX_SRC:String = 'img/rescale_handle.png';
-		
+				
 		/**
 		 * @private	The unique ID for this instance.
 		 */
@@ -94,17 +90,23 @@ package com.clementdauvent.admin.view.components
 		protected var _desc:String;
 		
 		/**
+		 * @priavte	The URL for the resize handle image.
+		 */
+		protected var _handleSrc:String;
+		
+		/**
 		 * @public	Image
-		 * @param	id:uint		Unique ID for this instance.
-		 * @param	src:String	URL for this image resource.
-		 * @param	w:Number	Basic witdh for this element.
-		 * @param	h:Number	Basic height for this element.
-		 * @param	desc:String	The image description.
+		 * @param	id:uint				Unique ID for this instance.
+		 * @param	src:String			URL for this image resource.
+		 * @param	w:Number			Basic witdh for this element.
+		 * @param	h:Number			Basic height for this element.
+		 * @param	desc:String			The image description.
+		 * @param	handleSrc:String	The URL for the resize handle image.
 		 * @return	this
 		 * 
 		 * Creates an instance of draggable, resizable Image element.
 		 */
-		public function Image(id:uint, src:String, w:Number, h:Number, desc:String)
+		public function Image(id:uint, src:String, w:Number, h:Number, desc:String, handleSrc:String)
 		{
 			_id = id;
 			_src = src;
@@ -112,6 +114,7 @@ package com.clementdauvent.admin.view.components
 			_elementHeight = h;
 			_referenceDimension = h;
 			_desc = desc;
+			_handleSrc = handleSrc;
 			
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
@@ -234,7 +237,7 @@ package com.clementdauvent.admin.view.components
 			_handleLoader = new Loader();
 			_handleLoader.contentLoaderInfo.addEventListener(Event.INIT, handleLoader_initHandler);
 			_handleLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, handleLoader_ioErrorHandler);
-			_handleLoader.load(new URLRequest(Image.HANDLE_GFX_SRC));
+			_handleLoader.load(new URLRequest(_handleSrc));
 			
 			// Load Image resource.
 			_imgLoader = new Loader();
@@ -361,7 +364,7 @@ package com.clementdauvent.admin.view.components
 		protected function handleLoader_ioErrorHandler(e:IOErrorEvent):void
 		{
 			removeHandleLoaderListeners();
-			trace("[ERROR] Image " + id + " couldn't load graphic for resize handle: " + e.text); 
+			Logger.print("[ERROR] Image " + id + " couldn't load graphic for resize handle: " + e.text); 
 		}
 		
 		/**
@@ -388,7 +391,9 @@ package com.clementdauvent.admin.view.components
 			});
 			
 			removeImgLoaderListeners();
-			trace("[INFO] Image " + id + " is ready.");
+			scaleAndPositionHandle();
+			
+			Logger.print("[INFO] Image " + id + " is ready.");
 		}
 		
 		/**
@@ -411,7 +416,7 @@ package com.clementdauvent.admin.view.components
 		protected function imgLoader_ioErrorHandler(e:IOErrorEvent):void
 		{
 			removeImgLoaderListeners();
-			trace("[ERROR] Image " + id + " couldn't load its photograph: " + e.text);
+			Logger.print("[ERROR] Image " + id + " couldn't load its photograph: " + e.text);
 		}
 		
 		/**

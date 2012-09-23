@@ -5,6 +5,7 @@ package com.clementdauvent.admin.controller.commands
 	import com.clementdauvent.admin.model.MainViewBuilderModel;
 	import com.clementdauvent.admin.view.components.ContextMenuView;
 	import com.clementdauvent.admin.view.components.MainView;
+	import com.clementdauvent.admin.utils.Logger;
 	
 	import flash.events.Event;
 	
@@ -21,6 +22,9 @@ package com.clementdauvent.admin.controller.commands
 		[Inject]
 		public var model:MainViewBuilderModel;
 		
+		/**
+		 * Injected instance of the main view.
+		 **/
 		[Inject]
 		public var mainView:ClementDauventLayoutManager;
 		
@@ -33,6 +37,7 @@ package com.clementdauvent.admin.controller.commands
 		override public function execute():void
 		{
 			var dummySrc:String = mainView.loaderInfo.parameters.dummySrc || 'img/DummyBitmapData.png';
+			Logger.print("[INFO] MainViewBuildCommand fetched the following URL for the dummy bitmap image: " + dummySrc);
 			eventDispatcher.addEventListener(MainViewBuilderModel.READY, readyHandler);
 			model.buildDataForMainView(dummySrc);
 		}
@@ -73,7 +78,7 @@ package com.clementdauvent.admin.controller.commands
 			// Add the view to the display list.
 			contextView.addChild(mainView);
 			
-			trace("[INFO] MainViewBuildCommand has created the MainView instance and added it to the display list");
+			Logger.print("[INFO] MainViewBuildCommand has created the MainView instance and added it to the display list");
 			
 			// Use the event bus to require data from the main model and initialize the build of images views.
 			eventDispatcher.dispatchEvent(new DataFetchEvent(DataFetchEvent.REQUIRE_DATA_FOR_IMAGES));

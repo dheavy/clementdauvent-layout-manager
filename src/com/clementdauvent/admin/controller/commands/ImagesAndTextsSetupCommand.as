@@ -1,5 +1,6 @@
 package com.clementdauvent.admin.controller.commands
 {
+	import com.clementdauvent.admin.ClementDauventLayoutManager;
 	import com.clementdauvent.admin.model.ApplicationModel;
 	import com.clementdauvent.admin.model.vo.ImageVO;
 	import com.clementdauvent.admin.model.vo.TextVO;
@@ -50,9 +51,11 @@ package com.clementdauvent.admin.controller.commands
 			var i:int = 0, j:int = 0;
 			var length:int = images.length;
 			
+			var resizeHandlerImgSrc:String = view.loaderInfo.parameters.handleSrc || 'img/rescale_handle.png';
+			
 			for (i; i < length; i++) {
 				var iVo:ImageVO = images[i];
-				var img:Image = new Image(i, iVo.src, iVo.originalWidth, iVo.originalHeight, iVo.description);
+				var img:Image = new Image(i, iVo.src, iVo.originalWidth, iVo.originalHeight, iVo.description, resizeHandlerImgSrc);
 				
 				if (j > ImagesAndTextsSetupCommand.ROWS) j = 0;
 				img.x = j * ImagesAndTextsSetupCommand.OFFSET;

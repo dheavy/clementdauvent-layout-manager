@@ -1,6 +1,7 @@
 package com.clementdauvent.admin.model
 {
 	import com.clementdauvent.admin.model.vo.BitmapDataVO;
+	import com.clementdauvent.admin.utils.Logger;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -82,7 +83,7 @@ package com.clementdauvent.admin.model
 		public function get vo():BitmapDataVO
 		{
 			if (_vo.data == null) {
-				trace("[ERROR] MainViewBuilder has not yet built bitmapdata for main view.");
+				Logger.print("[ERROR] MainViewBuilder has not yet built bitmapdata for main view.");
 			}
 			
 			return _vo;
@@ -116,7 +117,7 @@ package com.clementdauvent.admin.model
 			_vo.data = (_fileLoader.content as Bitmap).bitmapData;
 			eventDispatcher.dispatchEvent(new Event(MainViewBuilderModel.READY));
 			removeLoaderListeners();
-			trace("[INFO] MainViewBuilderModel has acquired the data needed to build the main view");
+			Logger.print("[INFO] MainViewBuilderModel has acquired the data needed to build the main view");
 		}
 		
 		/**
@@ -128,7 +129,7 @@ package com.clementdauvent.admin.model
 		 */
 		protected function fileLoader_ioErrorHandler(e:IOErrorEvent):void
 		{
-			trace("[ERROR] MainViewBuilderModel could not load its image resource. " + e.text);
+			Logger.print("[ERROR] MainViewBuilderModel could not load its image resource. " + e.text);
 			removeLoaderListeners();
 		}
 	}
